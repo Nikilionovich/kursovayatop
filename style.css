@@ -24,15 +24,20 @@ padding: 30px;
    font-size: 24px;
    color: white;
 }
-html,
-body {
-  height: 100%;
-}
-.wrapper {
-  display: table;
-  height: 100%;
-}
-.content {
-  display: table-row;
-  height: 100%;
-}
+
+  html,
+  body {
+    height: 100%;
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .content {
+    flex: 1 0 auto;
+  }
+  .footer {
+    flex: 0 0 auto;
+  }
+    
