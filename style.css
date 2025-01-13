@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.header{
+background-color: darkolivegreen;
+padding: 30px;
+}
+.container{
+    display: flex;
+    justify-content:space-between;
+    
+}
+.listdo
+{
+   font-size: 24px;
+   color: white;
+   text-decoration: none;
+}
+.wrapper-info
+{
+   display: flex;
+   gap: 50px;
+   font-size: 24px;
+   color: white;
+}
+html,
+body {
+  height: 100%;
+}
+.wrapper {
+  display: table;
+  height: 100%;
+}
+.content {
+  display: table-row;
+  height: 100%;
+}
