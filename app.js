@@ -36,6 +36,14 @@ async function renderKurs()
    let divt=document.getElementById("kurs")
    divt.innerHTML+=data;
 }
+ let wiw=document.getElementById('createdo')
+ let btnreg=document.getElementById('showPopup')
+btnreg.addEventListener('click',OpenModal)
+function OpenModal(){ 
+  
+   wiw.showModal()
+}
 
+      
 innertemp()
 innerKurs()
