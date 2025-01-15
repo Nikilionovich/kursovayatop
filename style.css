@@ -2,9 +2,17 @@
     margin: 0;
     padding: 0;
 }
+.page_body
+{
+  background-color: #f5f5f5;
+  color: #333333;
+  font-family: Arial, Helvetica, sans-serif ;
+}
 .header{
-background-color: darkolivegreen;
+background-color: #3498db;
 padding: 30px;
+padding-left: 60px;
+
 }
 .container{
     display: flex;
@@ -14,7 +22,7 @@ padding: 30px;
 .listdo
 {
    font-size: 24px;
-   color: white;
+   color: #333333;
    text-decoration: none;
 }
 .wrapper-info
@@ -22,7 +30,7 @@ padding: 30px;
    display: flex;
    gap: 50px;
    font-size: 24px;
-   color: white;
+   color: #333333;
 }
 
   html,
@@ -40,4 +48,4 @@ padding: 30px;
   .footer {
     flex: 0 0 auto;
   }
-    
+ 
