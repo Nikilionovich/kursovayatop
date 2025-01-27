@@ -34,16 +34,17 @@
                         <h2 id="h2createdo">Создание дела</h2>
                         <form method="dialog" id="FormOfCreate">
                             <div class="TEXTBOARD">
-                                <label>Название</label> <input type="text" placeholder="Введите название" id="NameOfDo">
+                                <label>Название</label>
+                                <input type="text" placeholder="Введите название" id="NameOfDo">
                                 <p id="errorMassageOfName" class="massError"></p>
-                                <label>Описание</label> <input type="text" placeholder="Введите описание"
-                                    id="MasOfDescription">
+                                <label>Описание</label>
+                                <input type="text" placeholder="Введите описание" id="MasOfDescription">
                                 <p id="errorMassageOfDescription" class="massError"></p>
                                 <label>Дедлайн</label>
                                 <input type="date" id="MasOfDate">
                                 <p id="errorMassageOfDate" class="massError"></p>
                                 <label>выберите тег</label>
-                                <select id="MasOfTag"> 
+                                <select id="MasOfTag">
                                     <option value="tag1">бездарь</option>
                                 </select>
                                 <p id="errorMassageOfTag" class="massError"></p>
@@ -52,23 +53,33 @@
                                     <option value="finish">завершено</option>
                                 </select>
                                 <span class="btnFcreate">
-                                    <button id="CloseModal"type="reset">Отмена</button>
-                                    <button id="btncreate" type="reset">
-                                        создать
-                                    </button>
+                                    <button id="CloseModal" type="reset">Отмена</button>
+                                    <button id="btncreate" type="reset">Создать</button>
                                 </span>
                             </div>
                         </form>
                     </dialog>
 
                 </section>
-
+                <section>
+                
+                        <div>
+                            <h2 class="h2NameOftDo"></h2>
+                            <p class="DescriptionOfToDo"></p>
+                            <p class="DeadLineOfToDo"></p>
+                            <p class="TagOfToDo"></p>
+                            <p class="StatusOfToDo"></p>
+                            <button class="btnchangeToDo"></button>
+                            <button class="btnDeleteToDo"></button>
+                        </div>
+                    
+                </section>
             </main>
         </div>
         <footer class="footer">fawd</footer>
     </div>
-    <script src="class.js"></script>
-    <script src="app.js"></script>
+    <script src="js/class.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>
