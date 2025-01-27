@@ -34,50 +34,94 @@ async function innerKurs() {
 }
 function OpenModal() {
 
-   wiw.showModal()
+   document.getElementById('createdo').showModal()
 }
-function StartValidation() {
+function CloseModal(){
+document.getElementById('createdo').close();
+}
+function createUniqueID() {
+   return 'id_' + Math.random().toString(36).substr(2, 9);
+}
+function StartValidation(event) {
    const form = document.getElementById('FormOfCreate')
-
-   form.addEventListener('submit', ValidationThen)
+   event.preventDefault();
+   if(ValidationThen())
+   {
+    CloseModal()
+   }
 }
 function ValidationThen(event) {
    let ErMasOfName = document.getElementById('errorMassageOfName')
-   let ErMasOfDescription = document.getElementById('errorMassageOfDescription')
    let ErMasOfDate = document.getElementById('errorMassageOfDate')
    let ErMasOfTag = document.getElementById('errorMassageOfTag')
+   let MasOfName=document.getElementById('NameOfDo').value
+   let MasOfDate=document.getElementById('MasOfDate').value
+   let MasOfTag=document.getElementById('MasOfTag').value
+   const date1 = new Date(MasOfDate);
+   const date2 = new Date();
    let Valid = true;
    ErMasOfName.innerHTML = '';
    ErMasOfDate.innerHTML = '';
-   ErMasOfDescription.innerHTML = '';
    ErMasOfTag.innerHTML = '';
-   if (ErMasOfName === '') 
+   if (MasOfName === ''|| MasOfName.length<3) 
    { 
-      isValid = false;
-       ErMasOfName.innerHTML += 'Поле "Название" не должно быть пустым.';
+      Valid = false;
+       ErMasOfName.innerHTML = 'Поле "Название" не должно быть пустым.';
   }
-   if (ErMasOfDescription === '') 
+   
+   if (MasOfDate === '' ||!checkTime(date1,date2)) 
    {
-      isValid = false;
-      ErMasOfDescription.innerHTML += 'Поле "Описание" не должно быть пустым.';
+      Valid = false;
+      ErMasOfDate.innerHTML = 'Поле "Дедлайн" не должно быть введен.';
    }
-   if (ErMasOfDate === '') 
+   if(MasOfTag==='')
    {
-      isValid = false;
-      ErMasOfDate.innerHTML += 'Поле "Дедлайн" не должно быть пустым.';
+      Valid = false;
+      ErMasOfTag.innerHTML = 'Поле "Тег" не заполнено. ';
    }
    if (!Valid) 
    { 
       event.preventDefault();
     }
+    return Valid
 }
-let wiw = document.getElementById('createdo')
+function checkTime(d1, d2){
+   return d1.setHours(0, 0, 0, 0) >= d2.setHours(0, 0, 0, 0);
+}
+function CreateToDo(event){
+   debugger
+   if(ValidationThen())
+   {
+           let MasOfName=document.getElementById('NameOfDo').value
+   let MasOfDate=document.getElementById('MasOfDate').value
+   let MasOfTag=document.getElementById('MasOfTag').value
+   let MasOfDescription=document.getElementById('MasOfDescription').value
+   let statusOfDo=document.getElementById('inProcces').value
+   let ObjToDo ={
+ id:createUniqueID(),
+ title: MasOfName,
+ dascription:MasOfDescription,
+ deadline:MasOfDate,
+ tags:MasOfTag,
+ status:statusOfDo,
+ createAt:new Date(),
+ updateAt:new Date(),
+ history:{
+   action: checkTime (createAt,updateAt)? "created":"updated", 
+   timestamp:new Date()
+ }
+   };
+   Task.insertDo(MasOfName);
+   alert("успешно занесено в базу")
+   console.log(Task.getTask())
+}
+
+}
+let Task = new Todo()
 let btnreg = document.getElementById('showPopup')
 let btncreate = document.getElementById('btncreate')
 btnreg.addEventListener('click', OpenModal)
-
-
-
+btncreate.addEventListener('click',StartValidation)
 innertemp()
 innerKurs()
-StartValidation()
+
