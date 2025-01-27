@@ -1,7 +1,7 @@
 async function ApiTemp() {
 
-   const url = 'https://api.openweathermap.org/data/2.5/weather?q=Minsk&appid=cb8c1937ba2ab4009d5f9b08aab609b6'
-   const response = await fetch(url)
+   const url = 'https://api.openweathermap.org/data/2.5/weather?q=Minsk&appid=cb8c1937ba2ab4009d5f9b08aab609b6';
+   const response = await fetch(url);
    const datatemp = await response.json();
    return datatemp
 }
@@ -45,9 +45,10 @@ function createUniqueID() {
 function StartValidation(event) {
    const form = document.getElementById('FormOfCreate')
    event.preventDefault();
-   if(ValidationThen())
+   if(ValidationThen(event))
    {
-    CloseModal()
+      CreateToDo(event);
+    CloseModal();
    }
 }
 function ValidationThen(event) {
@@ -66,18 +67,18 @@ function ValidationThen(event) {
    if (MasOfName === ''|| MasOfName.length<3) 
    { 
       Valid = false;
-       ErMasOfName.innerHTML = 'Поле "Название" не должно быть пустым.';
+       ErMasOfName.innerHTML = 'Поле "Название" должно быть заполенно ';
   }
    
    if (MasOfDate === '' ||!checkTime(date1,date2)) 
    {
       Valid = false;
-      ErMasOfDate.innerHTML = 'Поле "Дедлайн" не должно быть введен.';
+      ErMasOfDate.innerHTML = 'Поле "Дедлайн" должно быть заполенно';
    }
    if(MasOfTag==='')
    {
       Valid = false;
-      ErMasOfTag.innerHTML = 'Поле "Тег" не заполнено. ';
+      ErMasOfTag.innerHTML = 'Поле "Тег"  должно быть заполенно. ';
    }
    if (!Valid) 
    { 
@@ -89,16 +90,16 @@ function checkTime(d1, d2){
    return d1.setHours(0, 0, 0, 0) >= d2.setHours(0, 0, 0, 0);
 }
 function CreateToDo(event){
-   debugger
-   if(ValidationThen())
+   if(ValidationThen(event))
    {
            let MasOfName=document.getElementById('NameOfDo').value
    let MasOfDate=document.getElementById('MasOfDate').value
    let MasOfTag=document.getElementById('MasOfTag').value
    let MasOfDescription=document.getElementById('MasOfDescription').value
    let statusOfDo=document.getElementById('inProcces').value
+   let UniqueId=createUniqueID();
    let ObjToDo ={
- id:createUniqueID(),
+ id: UniqueId,
  title: MasOfName,
  dascription:MasOfDescription,
  deadline:MasOfDate,
@@ -107,19 +108,25 @@ function CreateToDo(event){
  createAt:new Date(),
  updateAt:new Date(),
  history:{
-   action: checkTime (createAt,updateAt)? "created":"updated", 
+   action:  "created", 
    timestamp:new Date()
  }
    };
-   Task.insertDo(MasOfName);
+   Task.insertDo(JSON.stringify(ObjToDo));
+   localStorage.setItem(KeyOfLocalStorage,Task)
    alert("успешно занесено в базу")
-   console.log(Task.getTask())
+   let elpresfv=localStorage.getItem(KeyOfLocalStorage)
+   let storedData = JSON.parse(elpresfv);
+   console.log(storedData);
 }
 
 }
+let KeyOfLocalStorage='StorageOfToDo'
 let Task = new Todo()
 let btnreg = document.getElementById('showPopup')
 let btncreate = document.getElementById('btncreate')
+let btnCancel=document.getElementById('CloseModal')
+btnCancel.addEventListener('click',CloseModal)
 btnreg.addEventListener('click', OpenModal)
 btncreate.addEventListener('click',StartValidation)
 innertemp()
