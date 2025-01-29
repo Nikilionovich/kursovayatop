@@ -27,7 +27,7 @@
             <main>
                 <section class="windowOfCreate">
 
-                    <button id="showPopup">Создание дела</button>
+                    <button id="showPopup" >Создание дела</button>
 
                     <dialog class="createboard" id="createdo">
 
@@ -61,17 +61,19 @@
                     </dialog>
 
                 </section>
-                <section>
-                
-                        <div>
-                            <h2 class="h2NameOftDo"></h2>
-                            <p class="DescriptionOfToDo"></p>
-                            <p class="DeadLineOfToDo"></p>
-                            <p class="TagOfToDo"></p>
-                            <p class="StatusOfToDo"></p>
+                <section>      
+                    <div id="forToDo">
+
+                    </div>
+                        <template id="TemplateCard">
+                            <h2 id="h2NameOftDo"></h2>
+                            <p id="DescriptionOfToDo"></p>
+                            <p id="DeadLineOfToDo"></p>
+                            <p id="TagOfToDo"></p>
+                            <p id="StatusOfToDo"></p>
                             <button class="btnchangeToDo"></button>
                             <button class="btnDeleteToDo"></button>
-                        </div>
+                        </template>
                     
                 </section>
             </main>
