@@ -36,8 +36,8 @@ function OpenModal() {
 
    document.getElementById('createdo').showModal()
 }
-function CloseModal(){
-document.getElementById('createdo').close();
+function CloseModal() {
+   document.getElementById('createdo').close();
 }
 function createUniqueID() {
    return 'id_' + Math.random().toString(36).substr(2, 9);
@@ -45,90 +45,108 @@ function createUniqueID() {
 function StartValidation(event) {
    const form = document.getElementById('FormOfCreate')
    event.preventDefault();
-   if(ValidationThen(event))
-   {
+   if (ValidationThen(event)) {
       CreateToDo(event);
-    CloseModal();
+      CloseModal();
+      document.getElementById('NameOfDo').value = '';
+      document.getElementById('MasOfDescription').value = '';
+      document.getElementById('MasOfDate').value = '';
+      document.getElementById('MasOfTag').value = '';
+      document.getElementById('inProcces').value = '';
    }
 }
 function ValidationThen(event) {
    let ErMasOfName = document.getElementById('errorMassageOfName')
    let ErMasOfDate = document.getElementById('errorMassageOfDate')
    let ErMasOfTag = document.getElementById('errorMassageOfTag')
-   let MasOfName=document.getElementById('NameOfDo').value
-   let MasOfDate=document.getElementById('MasOfDate').value
-   let MasOfTag=document.getElementById('MasOfTag').value
+   let MasOfName = document.getElementById('NameOfDo').value
+   let MasOfDate = document.getElementById('MasOfDate').value
+   let MasOfTag = document.getElementById('MasOfTag').value
    const date1 = new Date(MasOfDate);
    const date2 = new Date();
    let Valid = true;
    ErMasOfName.innerHTML = '';
    ErMasOfDate.innerHTML = '';
    ErMasOfTag.innerHTML = '';
-   if (MasOfName === ''|| MasOfName.length<3) 
-   { 
+   if (MasOfName === '' || MasOfName.length < 3) {
       Valid = false;
-       ErMasOfName.innerHTML = 'Поле "Название" должно быть заполенно ';
-  }
-   
-   if (MasOfDate === '' ||!checkTime(date1,date2)) 
-   {
+      ErMasOfName.innerHTML = 'Поле "Название" должно быть заполенно ';
+   }
+
+   if (MasOfDate === '' || !checkTime(date1, date2)) {
       Valid = false;
       ErMasOfDate.innerHTML = 'Поле "Дедлайн" должно быть заполенно';
    }
-   if(MasOfTag==='')
-   {
+   if (MasOfTag === '') {
       Valid = false;
       ErMasOfTag.innerHTML = 'Поле "Тег"  должно быть заполенно. ';
    }
-   if (!Valid) 
-   { 
+   if (!Valid) {
       event.preventDefault();
-    }
-    return Valid
+   }
+   return Valid
 }
-function checkTime(d1, d2){
+function checkTime(d1, d2) {
    return d1.setHours(0, 0, 0, 0) >= d2.setHours(0, 0, 0, 0);
 }
-function CreateToDo(event){
-   if(ValidationThen(event))
-   {
-           let MasOfName=document.getElementById('NameOfDo').value
-   let MasOfDate=document.getElementById('MasOfDate').value
-   let MasOfTag=document.getElementById('MasOfTag').value
-   let MasOfDescription=document.getElementById('MasOfDescription').value
-   let statusOfDo=document.getElementById('inProcces').value
-   let UniqueId=createUniqueID();
-   let ObjToDo ={
- id: UniqueId,
- title: MasOfName,
- dascription:MasOfDescription,
- deadline:MasOfDate,
- tags:MasOfTag,
- status:statusOfDo,
- createAt:new Date(),
- updateAt:new Date(),
- history:{
-   action:  "created", 
-   timestamp:new Date()
- }
-   };
-   Task.insertDo(JSON.stringify(ObjToDo));
-   localStorage.setItem(KeyOfLocalStorage,Task)
-   alert("успешно занесено в базу")
-   let elpresfv=localStorage.getItem(KeyOfLocalStorage)
-   let storedData = JSON.parse(elpresfv);
-   console.log(storedData);
-}
+function CreateToDo(event) {
 
+   let MasOfName = document.getElementById('NameOfDo').value
+   let MasOfDate = document.getElementById('MasOfDate').value
+   let MasOfTag = document.getElementById('MasOfTag').value
+   let MasOfDescription = document.getElementById('MasOfDescription').value
+   let statusOfDo = document.getElementById('inProcces').value
+   let UniqueId = createUniqueID();
+   let ObjToDo = {
+      id: UniqueId,
+      title: MasOfName,
+      dascription: MasOfDescription,
+      deadline: MasOfDate,
+      tags: MasOfTag,
+      status: statusOfDo,
+      createAt: new Date(),
+      updateAt: new Date(),
+      history: {
+         action: "created",
+         timestamp: new Date()
+      }
+   };
+   Task.insertDo(ObjToDo);
+   localStorage.setItem(KeyOfLocalStorage, JSON.stringify(Task))
+   alert("успешно занесено в базу")
+   renderToDo(ObjToDo)
 }
-let KeyOfLocalStorage='StorageOfToDo'
+function StartServer() {
+   let arrayOfDo = JSON.parse(localStorage.getItem(KeyOfLocalStorage));
+   console.log(arrayOfDo)
+   for (let i = 0; i < arrayOfDo.length; i++) {
+      console.log(arrayOfDo[i])
+     for (const key of arrayOfDo[i]) {
+        renderToDo(key)
+     }
+   
+   }
+}
+function renderToDo(Todo) {
+   const list = document.getElementById('forToDo')
+   const template = document.getElementById('TemplateCard')
+   const item = template.content.cloneNode(true)
+   item.getElementById('h2NameOftDo').textContent = Todo.title;
+   item.getElementById('DescriptionOfToDo').textContent = Todo.dascription
+   item.getElementById('DeadLineOfToDo').textContent = Todo.deadline
+   item.getElementById('TagOfToDo').textContent = Todo.tags
+   item.getElementById('StatusOfToDo').textContent = Todo.status
+   list.append(item)
+}
+let KeyOfLocalStorage = 'StorageOfToDo'
 let Task = new Todo()
+
 let btnreg = document.getElementById('showPopup')
 let btncreate = document.getElementById('btncreate')
-let btnCancel=document.getElementById('CloseModal')
-btnCancel.addEventListener('click',CloseModal)
+let btnCancel = document.getElementById('CloseModal')
+btnCancel.addEventListener('click', CloseModal)
 btnreg.addEventListener('click', OpenModal)
-btncreate.addEventListener('click',StartValidation)
+btncreate.addEventListener('click', StartValidation)
+StartServer()
 innertemp()
 innerKurs()
-
