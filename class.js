@@ -29,12 +29,12 @@ class DoubleLinkedList {
     }
 }
 class Todo{
-    constructor ()
-    {
+    constructor (){
         this.task=[];
     }
-    insertDo(value){
-     this.task.push(value);
+    insertDo(value){         
+        this.task.push(value)
+     
     }
     getTask (){
         return this.task;
