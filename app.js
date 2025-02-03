@@ -52,7 +52,6 @@ function StartValidation(event) {
       document.getElementById('MasOfDescription').value = '';
       document.getElementById('MasOfDate').value = '';
       document.getElementById('MasOfTag').value = '';
-      document.getElementById('inProcces').value = '';
    }
 }
 function ValidationThen(event) {
@@ -111,6 +110,7 @@ function CreateToDo(event) {
          timestamp: new Date()
       }
    };
+   let Task = getTaskOfToDo(); 
    Task.insertDo(ObjToDo);
    localStorage.setItem(KeyOfLocalStorage, JSON.stringify(Task))
    alert("успешно занесено в базу")
@@ -118,14 +118,12 @@ function CreateToDo(event) {
 }
 function StartServer() {
    let arrayOfDo = JSON.parse(localStorage.getItem(KeyOfLocalStorage));
-   console.log(arrayOfDo)
-   for (let i = 0; i < arrayOfDo.length; i++) {
-      console.log(arrayOfDo[i])
-     for (const key of arrayOfDo[i]) {
-        renderToDo(key)
-     }
-   
-   }
+   let i=0;
+   for (let key in arrayOfDo) {           
+            console.log(arrayOfDo[key][i])
+           renderToDo(arrayOfDo[key][i++])
+        
+      }
 }
 function renderToDo(Todo) {
    const list = document.getElementById('forToDo')
@@ -138,15 +136,25 @@ function renderToDo(Todo) {
    item.getElementById('StatusOfToDo').textContent = Todo.status
    list.append(item)
 }
-let KeyOfLocalStorage = 'StorageOfToDo'
-let Task = new Todo()
 
+function getTaskOfToDo(){
+   if (JSON.parse(localStorage.getItem(KeyOfLocalStorage))===null)
+   {
+      let Task=new Todo()
+      return Task;
+   }
+   else{ 
+      let Task=new Todo()
+      Task.insertDo(JSON.parse(localStorage.getItem(KeyOfLocalStorage)))
+      return Task
+   }
+}
+let KeyOfLocalStorage = 'StorageOfToDo'
 let btnreg = document.getElementById('showPopup')
 let btncreate = document.getElementById('btncreate')
 let btnCancel = document.getElementById('CloseModal')
 btnCancel.addEventListener('click', CloseModal)
 btnreg.addEventListener('click', OpenModal)
 btncreate.addEventListener('click', StartValidation)
-StartServer()
 innertemp()
 innerKurs()
