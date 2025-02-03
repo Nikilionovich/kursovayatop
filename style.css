@@ -104,3 +104,8 @@ dialog::backdrop {
   min-height: 30px;
   border: none;
 }
+#forToDo{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
