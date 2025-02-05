@@ -110,45 +110,43 @@ function CreateToDo(event) {
          timestamp: new Date()
       }
    };
-   let Task = getTaskOfToDo(); 
-   Task.insertDo(ObjToDo);
+   let Task = getTaskOfToDo(ObjToDo);
    localStorage.setItem(KeyOfLocalStorage, JSON.stringify(Task))
    alert("успешно занесено в базу")
    renderToDo(ObjToDo)
-}
-function StartServer() {
-   let arrayOfDo = JSON.parse(localStorage.getItem(KeyOfLocalStorage));
-   let i=0;
-   for (let key in arrayOfDo) {           
-            console.log(arrayOfDo[key][i])
-           renderToDo(arrayOfDo[key][i++])
-        
-      }
 }
 function renderToDo(Todo) {
    const list = document.getElementById('forToDo')
    const template = document.getElementById('TemplateCard')
    const item = template.content.cloneNode(true)
-   item.getElementById('h2NameOftDo').textContent = Todo.title;
-   item.getElementById('DescriptionOfToDo').textContent = Todo.dascription
-   item.getElementById('DeadLineOfToDo').textContent = Todo.deadline
-   item.getElementById('TagOfToDo').textContent = Todo.tags
-   item.getElementById('StatusOfToDo').textContent = Todo.status
-   list.append(item)
-}
-
-function getTaskOfToDo(){
-   if (JSON.parse(localStorage.getItem(KeyOfLocalStorage))===null)
-   {
-      let Task=new Todo()
-      return Task;
-   }
-   else{ 
-      let Task=new Todo()
-      Task.insertDo(JSON.parse(localStorage.getItem(KeyOfLocalStorage)))
-      return Task
-   }
-}
+   item.getElementById('h2NameOftDo').textContent= Todo.title;
+   item.getElementById('DescriptionOfToDo').textContent= Todo.dascription
+   item.getElementById('DeadLineOfToDo').textContent= Todo.deadline
+   item.getElementById('TagOfToDo').textContent= Todo.tags
+   item.getElementById('StatusOfToDo').textContent= Todo.status
+   const DeleteButton=item.querySelector('.btnDeleteToDo');
+   DeleteButton.addEventListener('click',(event)=>{
+      const todoItem = event.target.closest('.todo-item');
+      removeTaskFromLocalStorage(Todo.id);
+      todoItem.remove();
+    });
+  
+    list.append(item);
+  }
+  function removeTaskFromLocalStorage(id) {
+   let tasks = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
+   tasks = tasks.filter(task => task.id !== id);
+   localStorage.setItem(KeyOfLocalStorage, JSON.stringify(tasks));
+ }
+  function StartServer() {
+    let arrayOfDo = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
+    arrayOfDo.forEach(task => renderToDo(task));
+  }
+function getTaskOfToDo(obj) {
+   let tasks = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
+   tasks.push(obj);
+   return tasks;
+ }
 let KeyOfLocalStorage = 'StorageOfToDo'
 let btnreg = document.getElementById('showPopup')
 let btncreate = document.getElementById('btncreate')
@@ -158,3 +156,4 @@ btnreg.addEventListener('click', OpenModal)
 btncreate.addEventListener('click', StartValidation)
 innertemp()
 innerKurs()
+StartServer()

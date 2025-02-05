@@ -28,15 +28,16 @@ class DoubleLinkedList {
         return this;
     }
 }
-class Todo{
-    constructor (){
-        this.task=[];
+class Todo {
+    constructor(tasks) {
+      this.tasks = tasks || [];
     }
-    insertDo(value){         
-        this.task.push(value)
-     
+  
+    insertDo(task) {
+      this.tasks.push(task);
     }
-    getTask (){
-        return this.task;
+  
+    getTasks() {
+      return this.tasks;
     }
-}
+  }
