@@ -1,3 +1,4 @@
+let isEdit=[];
 async function ApiTemp() {
 
    const url = 'https://api.openweathermap.org/data/2.5/weather?q=Minsk&appid=cb8c1937ba2ab4009d5f9b08aab609b6';
@@ -44,6 +45,7 @@ function createUniqueID() {
 }
 function StartValidation(event) {
    const form = document.getElementById('FormOfCreate')
+   let Edit=isEdit.pop();
    event.preventDefault();
    if (ValidationThen(event)) {
       CreateToDo(event);
@@ -52,6 +54,16 @@ function StartValidation(event) {
       document.getElementById('MasOfDescription').value = '';
       document.getElementById('MasOfDate').value = '';
       document.getElementById('MasOfTag').value = '';
+      
+      if(Edit!=null||Edit!=undefined)
+      {
+         let tasks = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
+         tasks = tasks.filter(task => task.id !== Edit.id);
+         localStorage.setItem(KeyOfLocalStorage, JSON.stringify(tasks));
+         document.getElementById('forToDo').innerHTML = '';
+         StartServer()
+         console.log(Edit)
+      }
    }
 }
 function ValidationThen(event) {
@@ -124,14 +136,47 @@ function renderToDo(Todo) {
    item.getElementById('DeadLineOfToDo').textContent= Todo.deadline
    item.getElementById('TagOfToDo').textContent= Todo.tags
    item.getElementById('StatusOfToDo').textContent= Todo.status
-   const DeleteButton=item.querySelector('.btnDeleteToDo');
-   DeleteButton.addEventListener('click',(event)=>{
+   const DeleteBtn=item.querySelector('.btnDeleteToDo');
+   DeleteBtn.addEventListener('click',(event)=>{
       const todoItem = event.target.closest('.todo-item');
       removeTaskFromLocalStorage(Todo.id);
       todoItem.remove();
     });
-  
+   const EditBtn=item.querySelector('.btnchangeToDo');
+   EditBtn.addEventListener('click',(event)=>{
+      const todoEdit = event.target.closest('.todo-item');
+       let thingOfEdit = findToDo(Todo);
+       OpenModal() 
+       EditToDo(Todo,event)
+
+   })
     list.append(item);
+  }
+  function EditToDo(obj,event){
+   let MasOfName = document.getElementById('NameOfDo')
+   let MasOfDate = document.getElementById('MasOfDate')
+   let MasOfTag = document.getElementById('MasOfTag')
+   let MasOfDescription = document.getElementById('MasOfDescription')
+   let statusOfDo = document.getElementById('inProcces')
+   MasOfName.value=obj.title;
+   MasOfDate.value=obj.deadline;
+   MasOfDescription.value=obj.dascription;
+   MasOfTag.value=obj.tags;
+   statusOfDo.value=obj.status;
+   obj.updateAt=new Date();
+   obj.history.action="Updated";
+   obj.history.timestamp=new Date();
+   isEdit.push(obj);
+  }
+  function findToDo(id){
+   let tasks = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
+   for (let i = 0; i < tasks.length; i++) {
+      if(tasks[i].id===id.id){
+         localStorage.setItem(KeyOfLocalStorage, JSON.stringify(tasks));
+         return tasks[i];
+      }
+   }
+   localStorage.setItem(KeyOfLocalStorage, JSON.stringify(tasks));
   }
   function removeTaskFromLocalStorage(id) {
    let tasks = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
