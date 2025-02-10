@@ -75,14 +75,42 @@
                             <button class="btnDeleteToDo"></button>
                         </div>
                     </template>
-
+<dialog id="changeTodo">
+                         <h2 id="h2Changedo">Создание дела</h2>
+                        <form method="dialog" id="FormOfChange">
+                            <div class="TEXTBOARD">
+                                <label>Название</label>
+                                <input type="text" placeholder="Введите название" id="NameOfChange">
+                                <p id="errorMassageOfNameChange" class="massError"></p>
+                                <label>Описание</label>
+                                <input type="text" placeholder="Введите описание" id="MasOfDescriptionChange">
+                                <p id="errorMassageOfDescriptionChange" class="massError"></p>
+                                <label>Дедлайн</label>
+                                <input type="date" id="MasOfDateChange">
+                                <p id="errorMassageOfDateChange" class="massError"></p>
+                                <label>выберите тег</label>
+                                <select id="MasOfTagChange">
+                                    <option value="бездарь">бездарь</option>
+                                </select>
+                                <p id="errorMassageOfTagChange" class="massError"></p>
+                                <select>
+                                    <option value="procces" id="inProccesChange">в процессе</option>
+                                    <option value="finish">завершено</option>
+                                </select>
+                                <span class="btnFcreate">
+                                    <button id="CloseModalChange" type="reset">Отмена</button>
+                                    <button id="BtnChange" type="reset">Создать</button>
+                                </span>
+                            </div>
+                        </form>
+</dialog>
                 </section>
             </main>
         </div>
         <footer class="footer">fawd</footer>
     </div>
-    <script src="class.js"></script>
-    <script src="app.js"></script>
+    <script src="js/class.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>

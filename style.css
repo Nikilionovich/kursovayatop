@@ -89,7 +89,7 @@ dialog::backdrop {
 }
 .btnchangeToDo{
   cursor: pointer;
-  background: url(img/icons8-карандаш-24.png) no-repeat center center;
+  background: url(img/353430-checkbox-edit-pen-pencil_107516.png) no-repeat center center;
   min-width: 30px;
   min-height: 30px;
   border: none;
@@ -99,7 +99,7 @@ dialog::backdrop {
 }
 .btnDeleteToDo{
   cursor: pointer;
-  background: url(img/icons8-мусорка-50.png) no-repeat center center;
+  background: url(img/seo-social-web-network-internet_262_icon-icons.com_61518.png) no-repeat center center;
   min-width: 30px;
   min-height: 30px;
   border: none;
