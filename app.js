@@ -1,4 +1,4 @@
-
+let isEdit = [];
 async function ApiTemp() {
 
    const url = 'https://api.openweathermap.org/data/2.5/weather?q=Minsk&appid=cb8c1937ba2ab4009d5f9b08aab609b6';
@@ -49,19 +49,20 @@ function CloseChangeModal() {
 function createUniqueID() {
    return 'id_' + Math.random().toString(36).substr(2, 9);
 }
-function StartValidationCreate(event) {
-   const form = document.getElementById('FormOfCreate')
+function StartValidationChange(event) {
    event.preventDefault();
-   if (Edit != null || Edit != undefined) {//условие бесполезно
-      let tasks = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];//[
-      let editobj = tasks.filter(task => task.id === Edit.id);//это способ нахождения того что нужно изменить
-      localStorage.setItem(KeyOfLocalStorage, JSON.stringify(tasks));//]
-      document.getElementById('forToDo').innerHTML = '';// обнуление и ререндер страницы
-      EditToDo(editobj, event);//способ хз 
-      StartServer();
-      CloseCreateModal();
-      console.log(editobj)// проверка что нашло
+   if (ValidationThenOfChange(event)) {
+      let objOfVal=isEdit.pop();
+      changeTodo(event, objOfVal);
+      document.getElementById('NameOfChange').value = '';
+      document.getElementById('MasOfDescriptionChange').value = '';
+      document.getElementById('MasOfDateChange').value = '';
+      document.getElementById('MasOfTagChange').value = '';
+      CloseChangeModal();
    }
+}
+function StartValidationCreate(event) {
+   event.preventDefault();
    if (ValidationThen(event)) {
       CreateToDo(event);
       CloseCreateModal();
@@ -73,7 +74,7 @@ function StartValidationCreate(event) {
 
    }
 }
-function ValidationThenOfChange(event, obj) {
+function ValidationThenOfChange(event) {
    let ErMasOfName = document.getElementById('errorMassageOfNameChange')
    let ErMasOfDate = document.getElementById('errorMassageOfDateChange')
    let ErMasOfTag = document.getElementById('errorMassageOfTagChange')
@@ -135,37 +136,22 @@ function ValidationThen(event) {
    }
    return Valid
 }
-function EditToDo(obj, event) {
-   let MasOfName = document.getElementById('NameOfDo')
-   let MasOfDate = document.getElementById('MasOfDate')
-   let MasOfTag = document.getElementById('MasOfTag')
-   let MasOfDescription = document.getElementById('MasOfDescription')
+
+function checkTime(d1, d2) {
+   return d1.setHours(0, 0, 0, 0) >= d2.setHours(0, 0, 0, 0);
+}
+function FillingITChangeFields(event, obj) {
+   let MasOfName = document.getElementById('NameOfChange')
+   let MasOfDate = document.getElementById('MasOfDateChange')
+   let MasOfTag = document.getElementById('MasOfTagChange')
+   let MasOfDescription = document.getElementById('MasOfDescriptionChange')
    let statusOfDo = document.getElementById('inProcces')
    MasOfName.value = obj.title;
    MasOfDate.value = obj.deadline;
    MasOfDescription.value = obj.dascription;
    MasOfTag.value = obj.tags;
    statusOfDo.value = obj.status;
-   obj.updateAt = new Date();
-   obj.history.action = "Updated";
-   obj.history.timestamp = new Date();
    isEdit.push(obj);
-}
-
-function checkTime(d1, d2) {
-   return d1.setHours(0, 0, 0, 0) >= d2.setHours(0, 0, 0, 0);
-}
-function FillingITChangeFields(event) {
-   let MasOfName = document.getElementById('NameOfChange').value
-   let MasOfDate = document.getElementById('MasOfDateChange').value
-   let MasOfTag = document.getElementById('MasOfTagChange').value
-   let MasOfDescription = document.getElementById('MasOfDescriptionChange').value
-   let statusOfDo = document.getElementById('inProcces').value
-   MasOfName.value = obj.title;
-   MasOfDate.value = obj.deadline;
-   MasOfDescription.value = obj.dascription;
-   MasOfTag.value = obj.tags;
-   statusOfDo.value = obj.status;
 }
 function changeTodo(event, obj) {
    let MasOfName = document.getElementById('NameOfChange').value
@@ -173,13 +159,18 @@ function changeTodo(event, obj) {
    let MasOfTag = document.getElementById('MasOfTagChange').value
    let MasOfDescription = document.getElementById('MasOfDescriptionChange').value
    let statusOfDo = document.getElementById('inProcces').value
-   obj.title=MasOfName;
-   obj.dascription=MasOfDescription;
-   obj.tags=MasOfTag;
-   obj.status=statusOfDo;
+   let UpdatedHistory = {
+      action: "Updated",
+      timestamp: new Date()
+   };
+   obj.title = MasOfName;
+   obj.dascription = MasOfDescription;
+   obj.tags = MasOfTag;
+   obj.status = statusOfDo;
    obj.updateAt = new Date();
-   obj.history.action = "Updated";
-   obj.history.timestamp = new Date();
+   obj.history.push(UpdatedHistory);
+   console.log(obj.history)
+
 }
 function CreateToDo(event) {
    let MasOfName = document.getElementById('NameOfDo').value
@@ -197,10 +188,10 @@ function CreateToDo(event) {
       status: statusOfDo,
       createAt: new Date(),
       updateAt: new Date(),
-      history: {
+      history: [{
          action: "created",
          timestamp: new Date()
-      }
+      }]
    };
    let Task = getTaskOfToDo(ObjToDo);
    localStorage.setItem(KeyOfLocalStorage, JSON.stringify(Task))
@@ -216,21 +207,27 @@ function renderToDo(Todo) {
    item.getElementById('DeadLineOfToDo').textContent = Todo.deadline
    item.getElementById('TagOfToDo').textContent = Todo.tags
    item.getElementById('StatusOfToDo').textContent = Todo.status
+   item.getElementById('HiddenIdInfo').textContent=Todo.id 
    const DeleteBtn = item.querySelector('.btnDeleteToDo');
    DeleteBtn.addEventListener('click', (event) => {
       const todoItem = event.target.closest('.todo-item');
       removeTaskFromLocalStorage(Todo.id);
       todoItem.remove();
    });
-   const EditBtn = item.querySelector('.btnchangeToDo');
-   EditBtn.addEventListener('click', (event) => {
-      const todoEdit = event.target.closest('.todo-item');
-      OpenCreateModal();
-      EditToDo(Todo, event);
-   })
-   list.append(item);
-}
+    const EditBtn = item.querySelector('.btnchangeToDo');
+    EditBtn.addEventListener('click', (event) => {
+       OpenChangeModal();
+       FillingITChangeFields(event,Todo);
+      })
+ list.append(item);
 
+}
+function OpenAndFillinng(event,obj)
+{
+   const todoEdit = event.target.closest('.todo-item');
+      OpenChangeModal();
+      FillingITChangeFields(event, Todo);
+}
 function removeTaskFromLocalStorage(id) {
    let tasks = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
    tasks = tasks.filter(task => task.id !== id);
@@ -245,15 +242,30 @@ function getTaskOfToDo(obj) {
    tasks.push(obj);
    return tasks;
 }
+function FindObj(id){ 
+   let a=JSON.parse(localStorage.getItem(KeyOfLocalStorage))
+   let b= a.filter(task=> task.id===id)
+   localStorage.setItem(KeyOfLocalStorage, JSON.stringify(a))
+  return b;
+  
+
+
+}
 let KeyOfLocalStorage = 'StorageOfToDo'
 let btnreg = document.getElementById('showPopup')
 let btncreate = document.getElementById('btncreate')
 let btnCancel = document.getElementById('CloseModal')
-let btnChange = document.getElementById('CloseModalChange')
-let btnCancelChange = document.getElementById('BtnChange')
+let btnChange = document.getElementById('BtnChange')
+let btnCancelChange = document.getElementById('CloseModalChange')
 btnCancel.addEventListener('click', CloseCreateModal)
 btnreg.addEventListener('click', OpenCreateModal)
 btncreate.addEventListener('click', StartValidationCreate)
+btnChange.addEventListener('click', StartValidationChange)
+btnCancelChange.addEventListener('click',CloseChangeModal)
+const confirm= document.getElementById('BtnChange')      
+confirm.addEventListener('click',(event)=>{
+       StartValidationChange(event)
+       })
 innertemp()
 innerKurs()
 StartServer()
