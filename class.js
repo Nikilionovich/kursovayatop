@@ -32,12 +32,4 @@ class Todo {
   constructor(tasks) {
     this.tasks = tasks || [];
   }
-
-  insertDo(task) {
-    this.tasks.push(task);
-  }
-
-  getTasks() {
-    return this.tasks;
-  }
 }
