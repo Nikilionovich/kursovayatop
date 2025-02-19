@@ -44,9 +44,26 @@
                                 <input type="date" id="MasOfDate">
                                 <p id="errorMassageOfDate" class="massError"></p>
                                 <label>выберите тег</label>
-                                <select id="MasOfTag">
-                                    <option value="tag1">бездарь</option>
-                                </select>
+                                <button type="reset" id="CreateTag">Создать новый тег </button>
+                                <details>
+                                    <summary>выберите теги</summary>
+                                    <form>
+                                        <div id="-">
+                                        <label>
+                                            <input type="checkbox" name="tag" class="TagIs" value="first">
+                                            first
+                                        </label><br>
+                                        <label>
+                                            <input type="checkbox" name="tag" class="TagIs" value="second">
+                                            second
+                                        </label><br>
+                                        <label>
+                                            <input type="checkbox" name="tag" class="TagIs" value="third">
+                                            third
+                                        </label>
+                                    </div>
+                                    </form>
+                                </details>
                                 <p id="errorMassageOfTag" class="massError"></p>
                                 <select>
                                     <option value="procces" id="inProcces">в процессе</option>
@@ -90,6 +107,7 @@
                                 <input type="date" id="MasOfDateChange">
                                 <p id="errorMassageOfDateChange" class="massError"></p>
                                 <label>выберите тег</label>
+                                <button type="submit" id="CreateTaginChange"> Создать новый тег </button>
                                 <select id="MasOfTagChange">
                                     <option value="бездарь">бездарь</option>
                                 </select>
@@ -107,7 +125,6 @@
 </dialog >
                 </section>
                 <section>
-                    <button type="reset" id="CreateTag">Создать новый тег </button>
                     <dialog id="DialogOFcreateTag">
                         <h2 class="h2CreateTag"> Создание тега</h2>
                         <form>
