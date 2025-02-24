@@ -201,6 +201,16 @@ function selectedTag(){
 function checkTime(d1, d2) {
    return d1.setHours(0, 0, 0, 0) >= d2.setHours(0, 0, 0, 0);
 }
+function FillingTagField(tag){
+   const checkboxes = document.querySelectorAll('input[name="tagchange"]');   
+   checkboxes.forEach(checkbox => {
+      if (tag.includes(checkbox.value)) {
+          checkbox.checked = true;
+      }
+
+   })
+}
+
 function FillingITChangeFields(event, obj) {
    let MasOfName = document.getElementById('NameOfChange')
    let MasOfDate = document.getElementById('MasOfDateChange')
@@ -210,7 +220,10 @@ function FillingITChangeFields(event, obj) {
    MasOfName.value = obj.title;
    MasOfDate.value = obj.deadline;
    MasOfDescription.value = obj.dascription;
-   MasOfTag.value = obj.tags;
+   for (let i = 0; i < obj.tags.length; i++) {
+      FillingTagField(obj.tags[i]);
+   }
+   
    statusOfDo.value = obj.status;
    isEdit.push(obj);
 }
@@ -228,19 +241,11 @@ function changeTodo(event, object) {
    obj.title = MasOfName;
    obj.dascription = MasOfDescription;
    obj.deadline = MasOfDate;
-   obj.tags = MasOfTag;
+   obj.tags = selectedTag();
    obj.status = statusOfDo;
    obj.updateAt = new Date();
    obj.history.push(UpdatedHistory);
    addTodoToStorage(obj)
-   console.log(obj.history)
-
-}
-function addTagToNewTodo(obj){
-let ArTag=selectedTag();
-for (let i = 0; i < ArTag.length; i++) {
-   obj.tags+=ArTag[i]+", ";
-}
 }
 function CreateToDo(event) {
    let MasOfName = document.getElementById('NameOfDo').value
@@ -274,7 +279,7 @@ function CreateTag(event) {
    alert("успешно занесено в базу");
 }
 function addTodoToStorage(obj) {
-   let a = JSON.parse(localStorage.getItem(KeyOfLocalStorage));
+   let a = JSON.parse(localStorage.getItem(KeyOfLocalStorage))|| [];
    a.push(obj);
    localStorage.setItem(KeyOfLocalStorage, JSON.stringify(a));
 }
@@ -291,7 +296,9 @@ function renderToDo(Todo) {
    item.getElementById('h2NameOftDo').textContent = Todo.title;
    item.getElementById('DescriptionOfToDo').textContent = Todo.dascription
    item.getElementById('DeadLineOfToDo').textContent = Todo.deadline
-   item.getElementBy('TagOfToDo').textContent = Todo.tags
+   for (const i in Todo.tags) {
+       item.querySelector('#TagOfToDo').textContent += Todo.tags[i]+", ";
+   }
    item.getElementById('StatusOfToDo').textContent = Todo.status
    item.getElementById('HiddenIdInfo').textContent = Todo.id
    const DeleteBtn = item.querySelector('.btnDeleteToDo');
@@ -336,9 +343,6 @@ function FindObj(id) {
 
 const KeyOfLocalStorage = 'StorageOfToDo';
 const KeyForTagOfStorage = 'StorageOfTag';
-addTodoToStorage("Чекбокс 1")
-addTodoToStorage("Чекбокс 2")
-addTodoToStorage("Чекбокс 3")
 const btnreg = document.getElementById('showPopup')
 const btncreate = document.getElementById('btncreate')
 const btnCancel = document.getElementById('CloseModal')
