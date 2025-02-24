@@ -44,23 +44,10 @@
                                 <input type="date" id="MasOfDate">
                                 <p id="errorMassageOfDate" class="massError"></p>
                                 <label>выберите тег</label>
-                                <button type="reset" id="CreateTag">Создать новый тег </button>
-                                <details>
+                                <details >
                                     <summary>выберите теги</summary>
                                     <form>
-                                        <div id="-">
-                                        <label>
-                                            <input type="checkbox" name="tagchange" class="TagIs" value="first">
-                                            first
-                                        </label><br>
-                                        <label>
-                                            <input type="checkbox" name="tagchange" class="TagIs" value="second">
-                                            second
-                                        </label><br>
-                                        <label>
-                                            <input type="checkbox" name="tagchange" class="TagIs" value="third">
-                                            third
-                                        </label>
+                                        <div id="forCreateBoard">
                                     </div>
                                     </form>
                                 </details>
@@ -107,23 +94,10 @@
                                 <input type="date" id="MasOfDateChange">
                                 <p id="errorMassageOfDateChange" class="massError"></p>
                                 <label>выберите тег</label>
-                                <button type="submit" id="CreateTaginChange"> Создать новый тег </button>
                                 <details>
                                     <summary>выберите теги</summary>
                                     <form>
-                                        <div>
-                                        <label>
-                                            <input type="checkbox" name="tag" class="TagIs" value="first">
-                                            first
-                                        </label><br>
-                                        <label>
-                                            <input type="checkbox" name="tag" class="TagIs" value="second">
-                                            second
-                                        </label><br>
-                                        <label>
-                                            <input type="checkbox" name="tag" class="TagIs" value="third">
-                                            third
-                                        </label>
+                                        <div id="forChangeBoard">
                                     </div>
                                     </form>
                                 </details>
@@ -139,6 +113,27 @@
                             </div>
                         </form>
 </dialog >
+<template id="templatetagForCreate">
+            <div>
+            <label >
+                <input type="checkbox" name="tag" class="TagIs" value="x">
+                <span id="spanInTemplate">
+
+                </span>
+            </label><br>
+        </div>
+</template>
+<template id="templatetagForChange">
+    <div>
+    <label >
+        <input type="checkbox" name="tagchange" class="TagIs" value="x">
+        <span id="spanInTemplate">
+
+        </span>
+    </label><br>
+</div>
+</template>
+<button type="submit" id="CreateTag"> Создать новый тег </button>
                 </section>
                 <section>
                     <dialog id="DialogOFcreateTag">
@@ -158,8 +153,8 @@
         </div>
         <footer class="footer">fawd</footer>
     </div>
-    <script src="class.js"></script>
-    <script src="app.js"></script>
+    <script src="js/class.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-let isEdit = [];
+let isEditTodo = [];
 async function ApiTemp() {
 
    const url = 'https://api.openweathermap.org/data/2.5/weather?q=Minsk&appid=cb8c1937ba2ab4009d5f9b08aab609b6';
@@ -34,7 +34,6 @@ async function innerKurs() {
    divt.innerHTML += data;
 }
 function OpenCreateModal() {
-
    document.getElementById('createdo').showModal()
 }
 function CloseCreateModal() {
@@ -58,7 +57,7 @@ function createUniqueID() {
 function StartValidationChange(event) {
    event.preventDefault();
    if (ValidationThenOfChange(event)) {
-      let objOfVal = isEdit.pop();
+      let objOfVal = isEditTodo.pop();
       changeTodo(event, objOfVal);
       CloseChangeModal();
       StartServer()
@@ -90,7 +89,7 @@ function ValidationThenOfChange(event) {
    let ErMasOfTag = document.getElementById('errorMassageOfTagChange')
    let MasOfName = document.getElementById('NameOfChange').value
    let MasOfDate = document.getElementById('MasOfDateChange').value
-   let MasOfTag = document.getElementById('MasOfTagChange').value
+   let MasOfTag = document.getElementById('MasOfTagChange')
    const date1 = new Date(MasOfDate);
    const date2 = new Date();
    let Valid = true;
@@ -148,21 +147,22 @@ function ValidationThenOfTodo(event) {
 function ValidationThenOfTag(event) {
    let Valid = true;
    let newTag = document.getElementById('InputNewTag').value.trim();  
-   let TagInStorage = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
+   let TagInStorage = JSON.parse(localStorage.getItem(KeyForTagOfStorage)) || [];
    TagErrorMas.innerHTML = '';
-   Valid=checkTagIsCorrect(event,TagInStorage);
+   Valid=checkTagIsCorrect(event,TagInStorage,newTag);
    return Valid;
 }
-function checkTagIsCorrect(event,ArrayOfTag){ 
+function checkTagIsCorrect(event,ArrayOfTag,newTag){ 
+   let Valid=true;
    let TagErrorMas = document.getElementById('TagErrorMas');
-   for (let i = 0; i <= TagInStorage.length; i++) {
+   for (let i = 0; i <= ArrayOfTag.length; i++) {
       
       if (newTag==="") {
          Valid = false;
          TagErrorMas.innerHTML = "вы не ввели тэг!!!";
          break;
       }
-      if (TagInStorage.length===0 ) {
+      if (ArrayOfTag.length===0 ) {
          if (newTag==="") {
             Valid = false;
             TagErrorMas.innerHTML = "вы не ввели тэг!!!";
@@ -170,7 +170,7 @@ function checkTagIsCorrect(event,ArrayOfTag){
          }
          else return Valid
       }
-      if (TagInStorage[i].ToString().toLowerCase() === newTag.ToString().trim().toLowerCase()) {
+      if (ArrayOfTag[i] === newTag) {
          Valid = false;
          TagErrorMas.innerHTML = "Такой тег уже есть!!!";
          break;
@@ -191,7 +191,7 @@ function checkValid() {
  return selected.length ===null? true:false
 }
 function selectedTag(){
-   const checkboxes = document.querySelectorAll('input[name="tag"]:checked');
+   const checkboxes = document.querySelectorAll('input[name="tagchange"]:checked');
    let selected = [];
    checkboxes.forEach((checkbox) => {
        selected.push(checkbox.value);
@@ -203,12 +203,15 @@ function checkTime(d1, d2) {
 }
 function FillingTagField(tag){
    const checkboxes = document.querySelectorAll('input[name="tagchange"]');   
-   checkboxes.forEach(checkbox => {
-      if (tag.includes(checkbox.value)) {
-          checkbox.checked = true;
+   for (let i = 0; i < checkboxes.length; i++) {
+     
+       if (tag ===checkboxes[i].value) {
+         checkboxes[i].checked = true;
+          break;
       }
-
-   })
+      else {checkboxes.checked=false;}
+   }
+     
 }
 
 function FillingITChangeFields(event, obj) {
@@ -225,13 +228,14 @@ function FillingITChangeFields(event, obj) {
    }
    
    statusOfDo.value = obj.status;
-   isEdit.push(obj);
+   isEditTodo.push(obj);
+   
 }
 function changeTodo(event, object) {
    let obj = FindObj(object.id)
    let MasOfName = document.getElementById('NameOfChange').value
    let MasOfDate = document.getElementById('MasOfDateChange').value
-   let MasOfTag = document.getElementById('MasOfTagChange').value
+   let MasOfTag = document.getElementById('MasOfTagChange')
    let MasOfDescription = document.getElementById('MasOfDescriptionChange').value
    let statusOfDo = document.getElementById('inProcces').value
    let UpdatedHistory = {
@@ -277,6 +281,7 @@ function CreateTag(event) {
    let newTag = document.getElementById('InputNewTag');
    AddTagToStorage(newTag.value);
    alert("успешно занесено в базу");
+   renderTag(newTag);
 }
 function addTodoToStorage(obj) {
    let a = JSON.parse(localStorage.getItem(KeyOfLocalStorage))|| [];
@@ -294,13 +299,13 @@ function renderToDo(Todo) {
    const template = document.getElementById('TemplateCard')
    const item = template.content.cloneNode(true)
    item.getElementById('h2NameOftDo').textContent = Todo.title;
-   item.getElementById('DescriptionOfToDo').textContent = Todo.dascription
-   item.getElementById('DeadLineOfToDo').textContent = Todo.deadline
+   item.getElementById('DescriptionOfToDo').textContent = Todo.dascription;
+   item.getElementById('DeadLineOfToDo').textContent = Todo.deadline;
    for (const i in Todo.tags) {
-       item.querySelector('#TagOfToDo').textContent += Todo.tags[i]+", ";
+       item.querySelector('#TagOfToDo').textContent += Todo.tags[i]+",";
    }
-   item.getElementById('StatusOfToDo').textContent = Todo.status
-   item.getElementById('HiddenIdInfo').textContent = Todo.id
+   item.getElementById('StatusOfToDo').textContent = Todo.status;
+   item.getElementById('HiddenIdInfo').textContent = Todo.id;
    const DeleteBtn = item.querySelector('.btnDeleteToDo');
    DeleteBtn.addEventListener('click', (event) => {
       const todoItem = event.target.closest('.todo-item');
@@ -308,6 +313,7 @@ function renderToDo(Todo) {
       todoItem.remove();
    });
    const EditBtn = item.querySelector('.btnchangeToDo');
+  
    EditBtn.addEventListener('click', (event) => {
       OpenChangeModal();
       FillingITChangeFields(event, Todo);
@@ -315,10 +321,19 @@ function renderToDo(Todo) {
    list.append(item);
 
 }
-function renderTag(Todo){
-   const list = document.getElementById('forToDo')
-   const template = document.getElementById('TemplateCard')
-   const item = template.content.cloneNode(true)
+function renderTag(tag){
+   const listCreate = document.getElementById('forCreateBoard');
+   const listChange = document.getElementById('forChangeBoard');
+   const templateCreate = document.getElementById('templatetagForCreate');
+   const templateChange = document.getElementById('templatetagForChange');
+   const itemCreate = templateCreate.content.cloneNode(true) ;
+   const itemChange = templateChange.content.cloneNode(true) ;
+   itemCreate.querySelector('input[name="tag"]').value =tag;
+   itemCreate.querySelector('#spanInTemplate').innerHTML=tag;
+   itemChange.querySelector('input[name="tagchange"]').value =tag;
+   itemChange.querySelector('#spanInTemplate').innerHTML=tag;
+   listCreate.append(itemCreate);
+   listChange.append(itemChange);
 }
 function removeTaskFromLocalStorage(id) {
    let tasks = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
@@ -327,8 +342,12 @@ function removeTaskFromLocalStorage(id) {
 }
 function StartServer() {
    document.getElementById('forToDo').innerHTML = '';
+   document.getElementById('forCreateBoard').innerHTML=''; 
+   document.getElementById('forChangeBoard').innerHTML=''; 
    let arrayOfDo = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
+   let ArrayOfTag = JSON.parse(localStorage.getItem(KeyForTagOfStorage)) || [];
    arrayOfDo.forEach(task => renderToDo(task));
+   ArrayOfTag.forEach(tag=> renderTag(tag));
 }
 function FindObj(id) {
    let a = JSON.parse(localStorage.getItem(KeyOfLocalStorage))
@@ -350,15 +369,13 @@ const btnChange = document.getElementById('BtnChange')
 const btnCancelChange = document.getElementById('CloseModalChange')
 const btnOpenTagModal = document.getElementById("CreateTag");
 const BTNCreateTag = document.getElementById('createNewTag');
-const BtnCreateTagInChangeModal= document.getElementById('CreateTaginChange')
-BtnCreateTagInChangeModal.addEventListener('click',OpenCreateTagModal)
-BTNCreateTag.addEventListener('click',StartValidationTag)
-btnOpenTagModal.addEventListener('click', OpenCreateTagModal)
-btnCancel.addEventListener('click', CloseCreateModal)
-btnreg.addEventListener('click', OpenCreateModal)
-btncreate.addEventListener('click', StartValidationCreate)
-btnCancelChange.addEventListener('click', CloseChangeModal)
-const confirm = document.getElementById('BtnChange')
+BTNCreateTag.addEventListener('click',StartValidationTag);
+btnOpenTagModal.addEventListener('click', OpenCreateTagModal);
+btnCancel.addEventListener('click', CloseCreateModal);
+btnreg.addEventListener('click', OpenCreateModal);
+btncreate.addEventListener('click', StartValidationCreate);
+btnCancelChange.addEventListener('click', CloseChangeModal);
+const confirm = document.getElementById('BtnChange');
 confirm.addEventListener('click', (event) => {
    StartValidationChange(event)
 })
