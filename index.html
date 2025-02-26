@@ -26,6 +26,14 @@
             </header>
             <main>
                 <section class="windowOfCreate">
+                    <div class="dropdown">
+                        <button class="dropbtn" id="dropbtn">Сортировка</button>
+                        <ul class="dropdown-content" id="dropdownContent">
+                            <li id="sortDateAt">По дате создания</li>
+                            <li id="sortAlphabetically">По алфавиту</li>
+                            <li id="sortPriority">По приоритету</li>
+                        </ul>
+                    </div>
                     <div class="ContainBTNCreate">
                     <button id="showPopup">Создание дела</button>
 </div>
@@ -117,7 +125,7 @@
             <div>
             <label >
                 <input type="checkbox" name="tag" class="TagIs" value="x">
-                <span id="spanInTemplate">
+                <span id="spanInTemplateCreate">
 
                 </span>
             </label><br>
@@ -127,7 +135,7 @@
     <div>
     <label >
         <input type="checkbox" name="tagchange" class="TagIs" value="x">
-        <span id="spanInTemplate">
+        <span id="spanInTemplateChange">
 
         </span>
     </label><br>
