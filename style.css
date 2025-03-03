@@ -184,7 +184,8 @@ dialog::backdrop {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #fff;
+  border: 1px solid #ccc;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -200,4 +201,34 @@ dialog::backdrop {
 
 .dropdown-content li:hover {
   background-color: #f1f1f1;
+}
+.popup {
+  position: fixed;
+  top: 18%;
+  left: 242px;
+  transform: translateY(-50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 200px;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.popup.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.popup ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.popup ul li {
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.popup ul li:hover {
+  background-color: #f0f0f0;
 }

@@ -26,14 +26,32 @@
             </header>
             <main>
                 <section class="windowOfCreate">
-                    <div class="dropdown">
-                        <button class="dropbtn" id="dropbtn">Сортировка</button>
-                        <ul class="dropdown-content" id="dropdownContent">
+                    <div class="dropdown" id="dropdownDiv1">
+                        <button class="dropbtn" id="dropbtn1">Сортировка</button>
+                        <ul class="dropdown-content" id="dropdownContent1">
                             <li id="sortDateAt">По дате создания</li>
                             <li id="sortAlphabetically">По алфавиту</li>
                             <li id="sortPriority">По приоритету</li>
                         </ul>
                     </div>
+                
+                    <div class="dropdown" id="dropdownDiv2">
+                        <button class="dropbtn" id="dropbtn2">Фильтрация</button>
+                        <ul class="dropdown-content" id="dropdownContent2">
+                            <li id="filterStatus">по статусу</li>
+                            <li id="filterTag">По тегам</li>
+                            <li id="filterDateAt">По дате создания</li>
+                            <li id="filterDeadline">По дедлайну</li>
+                        </ul>
+                        <div id="statusPopup" class="popup hidden">
+                        <h3>Выберите статус:</h3>
+                        <ul>
+                            <li>В процессе</li>
+                            <li>Завершено</li>
+                        </ul>
+                    </div>
+                    </div>
+                    
                     <div class="ContainBTNCreate">
                     <button id="showPopup">Создание дела</button>
 </div>

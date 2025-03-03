@@ -378,33 +378,87 @@ function FindObj(id) {
    localStorage.setItem(KeyOfLocalStorage, JSON.stringify(c))
    return b.pop();
 }
-function showDropdown() {
-   const dropdownContent = document.getElementById('dropdownContent');
+function showDropdownFilter() {
+   const dropdownContent = document.getElementById('dropdownContent2');
    dropdownContent.style.display = 'block';
 }
-function hideDropdown() {
-   const dropdownContent = document.getElementById('dropdownContent');
+
+function hideDropdownFilter() {
+   const dropdownContent = document.getElementById('dropdownContent2');
    dropdownContent.style.display = 'none';
 }
-function toggleDropdown(event) {
+
+function showDropdown() {
+   const dropdownContent = document.getElementById('dropdownContent1');
+   dropdownContent.style.display = 'block';
+}
+
+function hideDropdown() {
+   const dropdownContent = document.getElementById('dropdownContent1');
+   dropdownContent.style.display = 'none';
+}
+
+function toggleDropdownfilter(event) {
    event.stopPropagation();
-   const dropdownContent = document.getElementById('dropdownContent');
+   const dropdownContent = document.getElementById('dropdownContent2');
    if (dropdownContent.style.display === 'block') {
-       hideDropdown();
+       hideDropdownFilter();
    } else {
-       showDropdown();
+       hideDropdown();
+       showDropdownFilter();
    }
 }
 
-
-function selectItem(item) {
- // проверка что нажали!!!
-}
-document.addEventListener('click', function(event) {
-   const dropdown = document.querySelector('.dropdown');
-   const dropdownContent = document.getElementById('dropdownContent');
-   if (!dropdown.contains(event.target)) {
+function toggleDropdown(event) {
+   event.stopPropagation();
+   const dropdownContent = document.getElementById('dropdownContent1');
+   if (dropdownContent.style.display === 'block') {
        hideDropdown();
+   } else {
+       hideDropdownFilter();
+       showDropdown();
+   }
+}
+function showPopup() {
+   // Устанавливаем позицию окна относительно элемента filterStatus
+   const rect = filterStatus.getBoundingClientRect();
+   statusPopup.classList.remove('hidden');
+   isHovering = true; // Устанавливаем флаг, что окно открыто
+}
+
+// Функция скрытия окна
+function hidePopup() {
+   statusPopup.classList.add('hidden');
+   isHovering = false; // Сбрасываем флаг
+}
+function checkHoverForPup(){
+   if (!isHovering) {
+      hidePopup(); 
+   }
+}
+function cursorOnModule(){
+   isHovering = true;
+}
+function lastCheckForcursor(){
+   isHovering = false;
+   setTimeout(() => {
+       if (!filterStatus.matches(':hover') && !statusPopup.matches(':hover')) {
+           hidePopup(); 
+       }
+   }, 100); 
+}
+
+document.addEventListener('click', function(event) {
+   const dropdownContent1 = document.getElementById('dropdownContent1');
+   const dropdownContent2 = document.getElementById('dropdownContent2');
+   if (!event.target.closest('.dropdown')) {
+       hideDropdown();
+       hideDropdownFilter();
+   }
+});// Закрытие окна при наведении мыши за его пределы
+document.addEventListener('mouseover', (event) => {
+   if (!filterStatus.contains(event.target) && !statusPopup.contains(event.target)) {
+       hidePopup();
    }
 });
 const KeyOfLocalStorage = 'StorageOfToDo';
@@ -417,9 +471,19 @@ const btnChange = document.getElementById('BtnChange');
 const btnCancelChange = document.getElementById('CloseModalChange');
 const btnOpenTagModal = document.getElementById("CreateTag");
 const BTNCreateTag = document.getElementById('createNewTag');
-const btnSort=document.getElementById('dropbtn');
+const btnSort=document.getElementById('dropbtn1');
 const btnDateSort=document.getElementById('sortDateAt');
 const btnsortAlphabetically=document.getElementById('sortAlphabetically');
+const btnFilterDrop=document.getElementById('dropbtn2');
+const filterStatus = document.getElementById('filterStatus');
+const statusPopup = document.getElementById('statusPopup');
+let isHovering = false;
+
+filterStatus.addEventListener('mouseenter', showPopup);
+filterStatus.addEventListener('mouseleave', checkHoverForPup);
+statusPopup.addEventListener('mouseenter', cursorOnModule);
+statusPopup.addEventListener('mouseleave', lastCheckForcursor);
+btnFilterDrop.addEventListener('click',toggleDropdownfilter);
 btnDateSort.addEventListener('click',sortDateAt);
 btnSort.addEventListener('click',toggleDropdown);
 BTNCreateTag.addEventListener('click',StartValidationTag);
