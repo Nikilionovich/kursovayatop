@@ -54,21 +54,13 @@ function CloseTagModal() {
 function createUniqueID() {
    return 'id_' + Math.random().toString(36).substr(2, 9);
 }
-function StartValidationChange(event) {
-   event.preventDefault();
-   if (ValidationThenOfChange(event)) {
-      let objOfVal = isEditTodo.pop();
-      changeTodo(event, objOfVal);
-      CloseChangeModal();
-      StartServer()
-   }
-}
+
 function renderSortedAr(ar){
    ar.forEach(element => {
       renderToDo(element);
    });
 }
-function sortDateAt(event){
+function sortDateAt(){
    hideDropdown();
    clearToDoOnSite();
    let ItemForSort=createDublicateForSort();
@@ -77,12 +69,47 @@ function sortDateAt(event){
   });
   renderSortedAr(ItemForSort);
 }
+function sortInProcces(){
+   hideDropdown();
+   clearToDoOnSite();
+   let ItemForSort=createDublicateForSort();
+   let Item=createDublicateForSort();
+   let arrforsort=[]
+   for (const el of Item) {
+      if (el.status==="InProcces") {
+         arrforsort.push(el);
+      }
+   }
+   renderSortedAr(arrforsort);
+}
+function sortfinish(){
+   hideDropdown();
+   clearToDoOnSite();
+   let Item=createDublicateForSort();
+   let arrforsort=[]
+   for (const el of Item) {
+      if (el.status==="Finish") {
+         arrforsort.push(el);
+      }
+   }
+   renderSortedAr(arrforsort);
+}
 function createDublicateForSort(){
    let a = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
+   localStorage.setItem(KeyOfLocalStorage, JSON.stringify(a));
    return a;
 }
 function clearToDoOnSite(){
    document.getElementById('forToDo').innerHTML='';
+}
+function StartValidationChange(event) {
+   event.preventDefault();
+   if (ValidationThenOfChange(event)) {
+      let objOfVal = isEditTodo.pop();
+      changeTodo(event, objOfVal);
+      CloseChangeModal();
+      StartServer()
+   }
 }
 function StartValidationCreate(event) {
    event.preventDefault();
@@ -214,6 +241,14 @@ function checkValid() {
  return selected.length ===null? true:false
 }
 function selectedTag(){
+   const checkboxes = document.querySelectorAll('input[name="tag"]:checked');
+   let selected = [];
+   checkboxes.forEach((checkbox) => {
+       selected.push(checkbox.value);
+   });
+ return selected;
+}
+function selectedTagForChange(){
    const checkboxes = document.querySelectorAll('input[name="tagchange"]:checked');
    let selected = [];
    checkboxes.forEach((checkbox) => {
@@ -260,7 +295,7 @@ function changeTodo(event, object) {
    let MasOfDate = document.getElementById('MasOfDateChange').value
    let MasOfTag = document.getElementById('MasOfTagChange')
    let MasOfDescription = document.getElementById('MasOfDescriptionChange').value
-   let statusOfDo = document.getElementById('inProcces').value
+   let statusOfDo = document.getElementById('mySelectchange').value
    let UpdatedHistory = {
       action: "Updated",
       timestamp: new Date()
@@ -268,7 +303,7 @@ function changeTodo(event, object) {
    obj.title = MasOfName;
    obj.dascription = MasOfDescription;
    obj.deadline = MasOfDate;
-   obj.tags = selectedTag();
+   obj.tags = selectedTagForChange();
    obj.status = statusOfDo;
    obj.updateAt = new Date();
    obj.history.push(UpdatedHistory);
@@ -279,7 +314,7 @@ function CreateToDo(event) {
    let MasOfDate = document.getElementById('MasOfDate').value
    let MasOfTag = JSON.parse(localStorage.getItem(KeyForTagOfStorage))||[];
    let MasOfDescription = document.getElementById('MasOfDescription').value
-   let statusOfDo = document.getElementById('inProccesChange').value
+   let statusOfDo = document.getElementById('mySelect').value
    let UniqueId = createUniqueID();
    let ObjToDo = {
       id: UniqueId,
@@ -295,6 +330,7 @@ function CreateToDo(event) {
          timestamp: new Date()
       }]
    };
+   console.log(ObjToDo.tags)
    addTodoToStorage(ObjToDo)
    alert("успешно занесено в базу")
    renderToDo(ObjToDo)
@@ -357,6 +393,13 @@ function renderTag(tag){
    listCreate.append(itemCreate);
    listChange.append(itemChange);
 }
+function renderTagForFilter(tag){
+const list=document.getElementById('fortagfilter');
+const template=document.getElementById('forfiltertag');
+const item=template.content.cloneNode(true);
+item.querySelector('option[name="filtertag"]').innerHTML=tag
+list.append(item)
+}
 function removeTaskFromLocalStorage(id) {
    let tasks = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
    tasks = tasks.filter(task => task.id !== id);
@@ -370,6 +413,7 @@ function StartServer() {
    let ArrayOfTag = JSON.parse(localStorage.getItem(KeyForTagOfStorage)) || [];
    arrayOfDo.forEach(task => renderToDo(task));
    ArrayOfTag.forEach(tag=> renderTag(tag));
+   ArrayOfTag.forEach(tag=> renderTagForFilter(tag));
 }
 function FindObj(id) {
    let a = JSON.parse(localStorage.getItem(KeyOfLocalStorage))
@@ -419,25 +463,49 @@ function toggleDropdown(event) {
        showDropdown();
    }
 }
+function showtagPopup(){
+   const rect = filterStatus.getBoundingClientRect();
+   tagPopup.classList.remove('hidden');
+   isHoveringtag = true;
+}
 function showPopup() {
-   // Устанавливаем позицию окна относительно элемента filterStatus
    const rect = filterStatus.getBoundingClientRect();
    statusPopup.classList.remove('hidden');
-   isHovering = true; // Устанавливаем флаг, что окно открыто
+   isHovering = true;
 }
 
-// Функция скрытия окна
+function hidetagPopup()
+{
+   tagPopup.classList.add('hidden');
+   isHoveringtag = false; 
+}
 function hidePopup() {
    statusPopup.classList.add('hidden');
-   isHovering = false; // Сбрасываем флаг
+   isHovering = false; 
+}
+function checkHoverForPuptag(){
+   if (!isHoveringtag) {
+      hidetagPopup(); 
+   }
 }
 function checkHoverForPup(){
    if (!isHovering) {
       hidePopup(); 
    }
 }
+function cursorOnModuletag(){
+   isHoveringtag = true;
+}
 function cursorOnModule(){
    isHovering = true;
+}
+function lastCheckForcursortag(){
+   isHoveringtag = false;
+   setTimeout(() => {
+       if (!filterTag.matches(':hover') && !tagPopup.matches(':hover')) {
+           hidetagPopup(); 
+       }
+   }, 100); 
 }
 function lastCheckForcursor(){
    isHovering = false;
@@ -455,10 +523,15 @@ document.addEventListener('click', function(event) {
        hideDropdown();
        hideDropdownFilter();
    }
-});// Закрытие окна при наведении мыши за его пределы
+});
 document.addEventListener('mouseover', (event) => {
    if (!filterStatus.contains(event.target) && !statusPopup.contains(event.target)) {
        hidePopup();
+   }
+});
+document.addEventListener('mouseover', (event) => {
+   if (!filterTag.contains(event.target) && !tagPopup.contains(event.target)) {
+       hidetagPopup();
    }
 });
 const KeyOfLocalStorage = 'StorageOfToDo';
@@ -477,8 +550,18 @@ const btnsortAlphabetically=document.getElementById('sortAlphabetically');
 const btnFilterDrop=document.getElementById('dropbtn2');
 const filterStatus = document.getElementById('filterStatus');
 const statusPopup = document.getElementById('statusPopup');
+const filterTag =document.getElementById('filterTag');
+const tagPopup= document.getElementById('tagPopup');
+const btnsortInProcces=document.getElementById('statusInProcces');
+const btnsortfinish=document.getElementById('statusFinish');
 let isHovering = false;
 
+btnsortfinish.addEventListener('click',sortfinish);
+btnsortInProcces.addEventListener('click',sortInProcces);
+filterTag.addEventListener('mouseenter',showtagPopup);
+filterTag.addEventListener('mouseleave',checkHoverForPuptag);
+tagPopup.addEventListener('mouseenter', cursorOnModuletag);
+tagPopup.addEventListener('mouseleave', lastCheckForcursortag);
 filterStatus.addEventListener('mouseenter', showPopup);
 filterStatus.addEventListener('mouseleave', checkHoverForPup);
 statusPopup.addEventListener('mouseenter', cursorOnModule);

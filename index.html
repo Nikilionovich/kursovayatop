@@ -46,8 +46,16 @@
                         <div id="statusPopup" class="popup hidden">
                         <h3>Выберите статус:</h3>
                         <ul>
-                            <li>В процессе</li>
-                            <li>Завершено</li>
+                            <li id="statusInProcces">В процессе</li>
+                            <li id="statusFinish">Завершено</li>
+                        </ul>
+                    </div>
+                    <div id="tagPopup" class="tag hidden">
+                        <h3>Выберите статус:</h3>
+                        <ul>
+                            <select  id="fortagfilter">
+                                <option value=""></option>
+                            </select>
                         </ul>
                     </div>
                     </div>
@@ -78,9 +86,9 @@
                                     </form>
                                 </details>
                                 <p id="errorMassageOfTag" class="massError"></p>
-                                <select>
-                                    <option value="procces" id="inProcces">в процессе</option>
-                                    <option value="finish">завершено</option>
+                                <select id="mySelect">
+                                    <option value="InProcces" id="inProcces">в процессе</option>
+                                    <option value="Finish">завершено</option>
                                 </select>
                                 <span class="btnFcreate">
                                     <button id="CloseModal" type="reset">Отмена</button>
@@ -128,9 +136,9 @@
                                     </form>
                                 </details>
                                 <p id="errorMassageOfTagChange" class="massError"></p>
-                                <select>
-                                    <option value="procces" id="inProccesChange">в процессе</option>
-                                    <option value="finish">завершено</option>
+                                <select id="mySelectchange">
+                                    <option value="InProcces" id="inProccesChange">в процессе</option>
+                                    <option value="Finish">завершено</option>
                                 </select>
                                 <span class="btnFcreate">
                                     <button id="CloseModalChange" type="reset">Отмена</button>
@@ -154,10 +162,12 @@
     <label >
         <input type="checkbox" name="tagchange" class="TagIs" value="x">
         <span id="spanInTemplateChange">
-
         </span>
     </label><br>
 </div>
+</template>
+<template id="forfiltertag">
+        <option name="filtertag"> </option>
 </template>
 <button type="submit" id="CreateTag"> Создать новый тег </button>
                 </section>

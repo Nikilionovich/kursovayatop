@@ -204,8 +204,9 @@ dialog::backdrop {
 }
 .popup {
   position: fixed;
-  top: 18%;
+  top: 19%;
   left: 242px;
+  z-index: 1000;
   transform: translateY(-50%);
   background-color: #fff;
   border: 1px solid #ccc;
@@ -218,7 +219,23 @@ dialog::backdrop {
   opacity: 0;
   visibility: hidden;
 }
-
+.tag.hidden{
+  opacity: 0;
+  visibility: hidden;
+}
+.tag{
+  position: fixed;
+  top: 19%;
+  left: 242px;
+  transform: translateY(-50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 8px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 200px;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
 .popup ul {
   list-style-type: none;
   padding: 0;
@@ -231,4 +248,7 @@ dialog::backdrop {
 
 .popup ul li:hover {
   background-color: #f0f0f0;
+}
+.dropbtn{
+  margin-top: 10px;
 }
