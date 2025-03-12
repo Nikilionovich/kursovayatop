@@ -50,13 +50,18 @@
                             <li id="statusFinish">Завершено</li>
                         </ul>
                     </div>
+
                     <div id="tagPopup" class="tag hidden">
                         <h3>Выберите статус:</h3>
                         <ul>
-                            <select  id="fortagfilter">
-                                <option value=""></option>
-                            </select>
+                            <summary>выберите теги</summary>
+                                    <form>
+                                        <div id="forCreateBoardfilt">
+                                    </div> 
+                                    <button type="reset" id="btnfiltertag">Фильтровать</button>
+                                  </form>
                         </ul>
+                       
                     </div>
                     </div>
                     
@@ -156,6 +161,15 @@
                 </span>
             </label><br>
         </div>
+        <template id="Temptagfilter">
+            <div>
+                <label >
+                    <input type="checkbox" name="tagfilt" class="TagIs" value="x">
+                    <span id="spanInTemplatefilter">
+                    </span>
+                </label><br>
+            </div>
+        </template>
 </template>
 <template id="templatetagForChange">
     <div>
@@ -165,9 +179,6 @@
         </span>
     </label><br>
 </div>
-</template>
-<template id="forfiltertag">
-        <option name="filtertag"> </option>
 </template>
 <button type="submit" id="CreateTag"> Создать новый тег </button>
                 </section>

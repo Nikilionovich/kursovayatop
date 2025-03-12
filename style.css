@@ -225,7 +225,7 @@ dialog::backdrop {
 }
 .tag{
   position: fixed;
-  top: 19%;
+  top: 21%;
   left: 242px;
   transform: translateY(-50%);
   background-color: #fff;
@@ -251,4 +251,7 @@ dialog::backdrop {
 }
 .dropbtn{
   margin-top: 10px;
+}
+.dropdown-content li:hover{
+  background-color: #ccc;
 }
