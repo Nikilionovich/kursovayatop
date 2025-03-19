@@ -72,8 +72,7 @@ function sortDateAt(){
 function sortInProcces(){
    hideDropdown();
    clearToDoOnSite();
-   let ItemForSort=createDublicateForSort();
-   let Item=createDublicateForSort();
+   let Item=JSON.parse(localStorage.getItem(KeyForSortOfStorage))||[];
    let arrforsort=[]
    for (const el of Item) {
       if (el.status==="InProcces") {
@@ -89,6 +88,7 @@ function sortfinish(){
    let Item=JSON.parse(localStorage.getItem(KeyForSortOfStorage))||[];
    let arrforsort=[]
    for (const el of Item) {
+      debugger
       if (el.status==="Finish") {
          arrforsort.push(el);
       }
@@ -482,20 +482,39 @@ function toggleDropdown(event) {
    }
 }
 function showtagPopup(){
-   const rect = filterStatus.getBoundingClientRect();
+   const rect = filterTag.getBoundingClientRect();
    tagPopup.classList.remove('hidden');
    isHoveringtag = true;
+}
+function showdaedlinePopup(){
+   const rect = filterdeadline.getBoundingClientRect();
+   deadlinePopup.classList.remove('hidden');
+   isHoveringdeadline = true;
 }
 function showPopup() {
    const rect = filterStatus.getBoundingClientRect();
    statusPopup.classList.remove('hidden');
    isHovering = true;
 }
-
+function showbydatePopup() {
+   const rect = filterbydate.getBoundingClientRect();
+   datePopup.classList.remove('hidden');
+   isHoveringbydate = true;
+}
 function hidetagPopup()
 {
    tagPopup.classList.add('hidden');
    isHoveringtag = false; 
+}
+function hidedeadlinePopup()
+{
+   deadlinePopup.classList.add('hidden');
+   isHoveringdeadline = false; 
+}
+function hidebydatePopup()
+{
+   datePopup.classList.add('hidden');
+   isHoveringbydate = false; 
 }
 function hidePopup() {
    statusPopup.classList.add('hidden');
@@ -506,22 +525,55 @@ function checkHoverForPuptag(){
       hidetagPopup(); 
    }
 }
+function checkHoverForPupdeadline(){
+   if (!isHoveringdeadline) {
+      hidedeadlinePopup(); 
+   }
+}
+
 function checkHoverForPup(){
    if (!isHovering) {
       hidePopup(); 
    }
 }
+function checkHoverForPupbydate(){
+   if (!isHoveringbydate) {
+      hidebydatePopup(); 
+   }
+}
 function cursorOnModuletag(){
    isHoveringtag = true;
 }
+function cursorOnModulebydate(){
+   isHoveringbydate = true;
+}
 function cursorOnModule(){
    isHovering = true;
+}
+function cursorOnModuledeadline(){
+   isHoveringdeadline = true;
 }
 function lastCheckForcursortag(){
    isHoveringtag = false;
    setTimeout(() => {
        if (!filterTag.matches(':hover') && !tagPopup.matches(':hover')) {
            hidetagPopup(); 
+       }
+   }, 100); 
+}
+function lastCheckForcursortdeadline(){
+   isHoveringdeadline= false;
+   setTimeout(() => {
+       if (!filterdeadline.matches(':hover') && !deadlinePopup.matches(':hover')) {
+           hidedeadlinePopup(); 
+       }
+   }, 100); 
+}
+function lastCheckForcursortbydate(){
+   isHoveringbydate= false;
+   setTimeout(() => {
+       if (!filterbydate.matches(':hover') && !datePopup.matches(':hover')) {
+           hidebydatePopup(); 
        }
    }, 100); 
 }
@@ -554,6 +606,16 @@ document.addEventListener('mouseover', (event) => {
        hidetagPopup();
    }
 });
+document.addEventListener('mouseover', (event) => {
+   if (!filterbydate.contains(event.target) && !datePopup.contains(event.target)) {
+       hidebydatePopup();
+   }
+});
+document.addEventListener('mouseover', (event) => {
+   if (!filterdeadline.contains(event.target) && !deadlinePopup.contains(event.target)) {
+       hidedeadlinePopup();
+   }
+});
 const KeyOfLocalStorage = 'StorageOfToDo';
 const KeyForTagOfStorage = 'StorageOfTag';
 const KeyForSortOfStorage= 'StorageForSort';
@@ -569,14 +631,27 @@ const btnDateSort=document.getElementById('sortDateAt');
 const btnsortAlphabetically=document.getElementById('sortAlphabetically');
 const btnFilterDrop=document.getElementById('dropbtn2');
 const filterStatus = document.getElementById('filterStatus');
+
 const statusPopup = document.getElementById('statusPopup');
-const filterTag =document.getElementById('filterTag');
-const tagPopup= document.getElementById('tagPopup');
 const btnsortInProcces=document.getElementById('statusInProcces');
 const btnsortfinish=document.getElementById('statusFinish');
-const btnfiltertag=document.getElementById('btnfiltertag');
-let isHovering = false;
 
+const filterTag =document.getElementById('filterTag');
+const tagPopup= document.getElementById('tagPopup');
+const btnfiltertag=document.getElementById('btnfiltertag');
+
+const filterbydate =document.getElementById('filterDateAt');
+const datePopup= document.getElementById('datePopup');
+const btnfitlerdate=document.getElementById('btndilterbydate');
+
+const filterdeadline=document.getElementById('filterDeadline');
+const deadlinePopup=document.getElementById('deadlinePopup');
+const btnfilterdeadline=document.getElementById('btndilterdeadline');
+
+let isHovering = false;
+let isHoveringtag=false;
+let isHoveringbydate=false;
+let isHoveringdeadline=false;
 btnfiltertag.addEventListener('click',()=>{
    clearToDoOnSite();
    let  selectedtags=selectedTagForFilter();
@@ -605,6 +680,16 @@ filterTag.addEventListener('mouseenter',showtagPopup);
 filterTag.addEventListener('mouseleave',checkHoverForPuptag);
 tagPopup.addEventListener('mouseenter', cursorOnModuletag);
 tagPopup.addEventListener('mouseleave', lastCheckForcursortag);
+
+filterdeadline.addEventListener('mouseenter',showdaedlinePopup);
+filterdeadline.addEventListener('mouseleave',checkHoverForPupdeadline);
+deadlinePopup.addEventListener('mouseenter', cursorOnModuledeadline);
+deadlinePopup.addEventListener('mouseleave', lastCheckForcursortdeadline);
+
+filterbydate.addEventListener('mouseenter',showbydatePopup);
+filterbydate.addEventListener('mouseleave',checkHoverForPupbydate);
+datePopup.addEventListener('mouseenter', cursorOnModulebydate);
+datePopup.addEventListener('mouseleave', lastCheckForcursortbydate);
 
 filterStatus.addEventListener('mouseenter', showPopup);
 filterStatus.addEventListener('mouseleave', checkHoverForPup);

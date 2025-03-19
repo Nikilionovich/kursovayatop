@@ -26,6 +26,7 @@
             </header>
             <main>
                 <section class="windowOfCreate">
+                    <div class="fordropdowncont">
                     <div class="dropdown" id="dropdownDiv1">
                         <button class="dropbtn" id="dropbtn1">Сортировка</button>
                         <ul class="dropdown-content" id="dropdownContent1">
@@ -63,8 +64,20 @@
                         </ul>
                        
                     </div>
+                    <div id="datePopup" class="datepop hidden">
+                        <h3>Введите промежуток</h3>
+                       <input type="date">
+                       <input type="date">
+                       <button type="button" id="btndilterbydate"></button>
                     </div>
-                    
+                    <div id="deadlinePopup" class="deadlinepop hidden">
+                        <h3>Введите промежуток</h3>
+                       <input type="date">
+                       <input type="date">
+                       <button type="button" id="btndilterdeadline"></button>
+                    </div>
+                    </div>
+                    </div>
                     <div class="ContainBTNCreate">
                     <button id="showPopup">Создание дела</button>
 </div>
@@ -200,8 +213,8 @@
         </div>
         <footer class="footer">fawd</footer>
     </div>
-    <script src="js/class.js"></script>
-    <script src="js/app.js"></script>
+    <script src="class.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>
