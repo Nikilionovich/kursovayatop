@@ -72,7 +72,7 @@ function sortDateAt(){
 function sortInProcces(){
    hideDropdown();
    clearToDoOnSite();
-   let Item=JSON.parse(localStorage.getItem(KeyForSortOfStorage))||[];
+   let Item=createDublicateForSort();
    let arrforsort=[]
    for (const el of Item) {
       if (el.status==="InProcces") {
@@ -81,20 +81,26 @@ function sortInProcces(){
    }
    renderSortedAr(arrforsort);
    localStorage.setItem(KeyForSortOfStorage, JSON.stringify(arrforsort));
+  
 }
 function sortfinish(){
    hideDropdown();
    clearToDoOnSite();
-   let Item=JSON.parse(localStorage.getItem(KeyForSortOfStorage))||[];
+   let Item=createDublicateForSort();
    let arrforsort=[]
    for (const el of Item) {
-      debugger
       if (el.status==="Finish") {
          arrforsort.push(el);
       }
    }
    renderSortedAr(arrforsort);
    localStorage.setItem(KeyForSortOfStorage, JSON.stringify(arrforsort));
+}
+function filtofstatus(filetrofwhat){
+if (filetrofwhat===0) {
+   sortInProcces();
+}
+else sortfinish();
 }
 function isDateInRange(date, startDate, endDate) {
    return date >= startDate && date <= endDate;
@@ -106,6 +112,39 @@ function createDublicateForSort(){
 }
 function clearToDoOnSite(){
    document.getElementById('forToDo').innerHTML='';
+}
+function filterall(filterdate){
+   debugger
+   resetsortstorage();
+   filtofstatus(filterdate);
+   if (selectedTagForFilter.length===0) {
+      
+   }
+   else filetifselecttag();
+   
+   
+}
+function filetifselecttag(arrforfilt){
+   debugger
+      clearToDoOnSite();
+      let  selectedtags=selectedTagForFilter();
+      let  todo=JSON.parse(localStorage.getItem(KeyForSortOfStorage)) || []
+        for (let i = 0; i < todo.length; i++)
+         {
+         for (let j = 0;  j< selectedtags.length;j++) {
+            for (let h = 0; h < todo[i].tags.length; h++) {
+              if (todo[i].tags[h]===selectedtags[j])
+               {
+                 renderToDo(todo[i]);
+                 i++;
+                 j=0;
+                 break;
+              }
+            }
+            
+         }           
+      }
+      localStorage.setItem(KeyForSortOfStorage, JSON.stringify(arrforsort));
 }
 function StartValidationChange(event) {
    event.preventDefault();
@@ -648,33 +687,23 @@ const filterdeadline=document.getElementById('filterDeadline');
 const deadlinePopup=document.getElementById('deadlinePopup');
 const btnfilterdeadline=document.getElementById('btndilterdeadline');
 
+const refreshbtn=document.getElementById('refreshbtn');
+let filterinproccesorfinish=null;
 let isHovering = false;
 let isHoveringtag=false;
 let isHoveringbydate=false;
 let isHoveringdeadline=false;
-btnfiltertag.addEventListener('click',()=>{
-   clearToDoOnSite();
-   let  selectedtags=selectedTagForFilter();
-   let  todo=JSON.parse(localStorage.getItem(KeyForSortOfStorage)) || []
-     for (let i = 0; i < todo.length; i++)
-      {
-      for (let j = 0;  j< selectedtags.length;j++) {
-         for (let h = 0; h < todo[i].tags.length; h++) {
-           if (todo[i].tags[h]===selectedtags[j])
-            {
-              renderToDo(todo[i]);
-              i++;
-              j=0;
-              break;
-           }
-         }
-         
-      }           
-   }
-});
 
-btnsortfinish.addEventListener('click',sortfinish);
-btnsortInProcces.addEventListener('click',sortInProcces);
+btnfiltertag.addEventListener('click',()=> filterall());
+refreshbtn.addEventListener('click',resetsortstorage);
+
+btnsortfinish.addEventListener('click',() =>{
+   filterinproccesorfinish=1;
+   filterall(filterinproccesorfinish);
+});
+btnsortInProcces.addEventListener('click',() => {
+   filterinproccesorfinish=0;
+   filterall(filterinproccesorfinish)});
 
 filterTag.addEventListener('mouseenter',showtagPopup);
 filterTag.addEventListener('mouseleave',checkHoverForPuptag);
@@ -697,12 +726,15 @@ statusPopup.addEventListener('mouseenter', cursorOnModule);
 statusPopup.addEventListener('mouseleave', lastCheckForcursor);
 
 btnFilterDrop.addEventListener('click',toggleDropdownfilter);
-btnDateSort.addEventListener('click',sortDateAt);
 btnSort.addEventListener('click',toggleDropdown);
-BTNCreateTag.addEventListener('click',StartValidationTag);
 btnOpenTagModal.addEventListener('click', OpenCreateTagModal);
+
 btnCancel.addEventListener('click', CloseCreateModal);
 btnreg.addEventListener('click', OpenCreateModal);
+
+btnDateSort.addEventListener('click',sortDateAt);
+BTNCreateTag.addEventListener('click',StartValidationTag);
+
 btncreate.addEventListener('click', StartValidationCreate);
 btnCancelChange.addEventListener('click', CloseChangeModal);
 
