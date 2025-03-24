@@ -35,15 +35,19 @@ async function innerKurs() {
 }
 function OpenCreateModal() {
    document.getElementById('createdo').showModal()
+   document.getElementById('detailscreate').open=false;
 }
 function CloseCreateModal() {
    document.getElementById('createdo').close();
+   
 }
 function OpenChangeModal() {
-   document.getElementById('changeTodo').showModal();
+   document.getElementById('changeTodo').showModal(); 
+   document.getElementById('detailschange').open=false
 }
 function CloseChangeModal() {
    document.getElementById('changeTodo').close();
+  
 }
 function OpenCreateTagModal() {
    document.getElementById("DialogOFcreateTag").showModal();
@@ -488,11 +492,19 @@ function removeTaskFromLocalStorage(id) {
    tasks = tasks.filter(task => task.id !== id);
    localStorage.setItem(KeyOfLocalStorage, JSON.stringify(tasks));
 }
-function StartServer() {
-   document.getElementById('forToDo').innerHTML = '';
+function clearall(){
+document.getElementById('forToDo').innerHTML = '';
    document.getElementById('forCreateBoard').innerHTML=''; 
    document.getElementById('forChangeBoard').innerHTML=''; 
-   document.getElementById('forCreateBoardfilt').innerHTML=''
+   document.getElementById('forCreateBoardfilt').innerHTML='';
+   let arrfilt=selectedTagForFilter();
+   for (let i = 0; i < arrfilt.length; i++) {
+      array[i].checked=false;
+   }
+}
+function StartServer() {
+   
+   clearall();
    let arrayOfDo = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
    let ArrayOfTag = JSON.parse(localStorage.getItem(KeyForTagOfStorage)) || [];
    arrayOfDo.forEach(task => renderToDo(task));
