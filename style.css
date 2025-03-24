@@ -113,10 +113,11 @@ dialog::backdrop {
   font-size: 16px;
   min-width: 330px;
   min-height: 60px;
-  background-color: #2eec71;
+  background-color: #2EEC71;
   border-radius: 2px;
-  border-color: olivedrab;
+  border-color: #6d9a11;
   color: #333333;
+
 }
 
 .btnDeleteToDo {
@@ -133,6 +134,7 @@ dialog::backdrop {
   flex-wrap: wrap;
   margin-top: 20px;
   text-align: center;
+  
 }
 
 #changeTodo {
@@ -156,17 +158,21 @@ dialog::backdrop {
 
 .todo-item {
   border: groove;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 .ContainBTNCreate {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   padding-top: 26px;
+  gap: 25px;
 }
 
 #DialogOFcreateTag {
   padding: 10px;
-  margin: auto;
+  margin: auto auto 25%;
   min-width: auto;
   min-height: auto;
   border-width: 1.5px;
@@ -204,8 +210,8 @@ dialog::backdrop {
 }
 .popup {
   position: fixed;
-  top: 19%;
-  left: 239px;
+  top: 22%;
+  left: 226px;
   z-index: 1000;
   transform: translateY(-50%);
   background-color: #fff;
@@ -233,8 +239,8 @@ dialog::backdrop {
 }
 .tag{
   position: fixed;
-  top: 24%;
-  left: 239px;
+  top: 28%;
+  left: 226px;
   transform: translateY(-50%);
   background-color: #fff;
   border: 1px solid #ccc;
@@ -246,8 +252,8 @@ dialog::backdrop {
 }
 .deadlinepop{
   position: fixed;
-  top: 31%;
-  left: 239px;
+  top: 36%;
+  left: 226px;
   transform: translateY(-50%);
   background-color: #fff;
   border: 1px solid #ccc;
@@ -256,6 +262,9 @@ dialog::backdrop {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 200px;
   transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.h3filtbydate{
+  text-align: center;
 }
 .popup ul {
   list-style-type: none;
@@ -278,8 +287,8 @@ dialog::backdrop {
 }
 .datepop{
   position: fixed;
-  top: 27%;
-  left: 239px;
+  top: 32%;
+  left: 226px;
   transform: translateY(-50%);
   background-color: #fff;
   border: 1px solid #ccc;
@@ -291,5 +300,45 @@ dialog::backdrop {
 }
 .fordropdowncont{
   display: flex;
+  gap: 20px; 
+}
+.divofdateforfilt{
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.btnfilterbydatecss{
+  margin-top: 6px;
+}
+#dropbtn1{
+  background: url(img/sort_sf912ar6tou5.svg) no-repeat center center;
+  min-height: 45px;
+  min-width: 45px;
+  border: none;
+}
+#dropbtn2{
+  background: url(img/filter_rnsq3xjx3tlc.svg) no-repeat center center;
+  min-height: 45px;
+  min-width: 45px;
+  border: none;
+}
+#refreshbtn{
+  background: url(img/refresh_uscdel8skbxv.svg) no-repeat center center;
+  min-height: 45px;
+  min-width: 45px;
+  border: none;
+}
+#CreateTag{
   
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    min-height: 45px;
+    padding:6px;
+    font-size: 16px;
+    background-color: #2EEC71;
+    border-radius: 2px;
+    border-color: #6d9a11;
+    color: #333333;
+    
 }

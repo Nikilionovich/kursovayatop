@@ -102,8 +102,33 @@ if (filetrofwhat===0) {
 }
 else sortfinish();
 }
-function isDateInRange(date, startDate, endDate) {
-   return date >= startDate && date <= endDate;
+function isDateInRangerendcreateat( startDate, endDate) {
+   let  todos=JSON.parse(localStorage.getItem(KeyForSortOfStorage)) || []
+   endDate= new Date(endDate).getTime();
+   startDate=new Date(startDate).getTime();
+   const startDate1 = Math.min(startDate, endDate);
+    const endDate1 = Math.max(startDate, endDate);
+     for (let i = 0; i < todos.length; i++) {
+      if (todos[i].createAt >= startDate1 && todos[i].createAt <= endDate1)
+      {
+         renderToDo(todos[i])
+      }
+      
+   }
+}
+function isDateInRangerenddeadline( startDate, endDate) {
+   let  todos=JSON.parse(localStorage.getItem(KeyForSortOfStorage)) || []
+   endDate= new Date(endDate).getTime();
+   startDate=new Date(startDate).getTime();
+   const startDate1 = Math.min(startDate, endDate);
+    const endDate1 = Math.max(startDate, endDate);
+     for (let i = 0; i < todos.length; i++) {
+      if (todos[i].deadline >= startDate1 && todos[i].deadline <= endDate1)
+      {
+         renderToDo(todos[i])
+      }
+      
+   }
 }
 function createDublicateForSort(){
    let a = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
@@ -114,29 +139,32 @@ function clearToDoOnSite(){
    document.getElementById('forToDo').innerHTML='';
 }
 function filterall(filterdate){
-   debugger
+    let checkatcreate1= document.getElementById('firstdateforatcreate');
+    let checkatcreate2=document.getElementById('seconddateforatcreate');
+    let checkdeadline1=document.getElementById('firstdatefordeadline');
+    let checkdeadline2=document.getElementById('seconddatefordeadline');
    resetsortstorage();
-   filtofstatus(filterdate);
-   if (selectedTagForFilter.length===0) {
-      
+   if(filterdate!== undefined){filtofstatus(filterdate);}
+   if (selectedTagForFilter().length!==0) {
+      filetifselecttag();
    }
-   else filetifselecttag();
-   
-   
+   if(checkatcreate1.value!==""||checkatcreate2.value!==""){isDateInRangerendcreateat(checkatcreate1.value,checkatcreate2.value);}
+   if(checkdeadline1.value!==""||checkdeadline2.value!==""){isDateInRangerenddeadline(checkdeadline1.value,checkdeadline2.value);} 
 }
-function filetifselecttag(arrforfilt){
-   debugger
-      clearToDoOnSite();
+
+function filetifselecttag(){
+      clearToDoOnSite(); 
       let  selectedtags=selectedTagForFilter();
-      let  todo=JSON.parse(localStorage.getItem(KeyForSortOfStorage)) || []
+      let todo=JSON.parse(localStorage.getItem(KeyForSortOfStorage))||[];
+      let filterallready=[];
         for (let i = 0; i < todo.length; i++)
-         {
+         {  
          for (let j = 0;  j< selectedtags.length;j++) {
             for (let h = 0; h < todo[i].tags.length; h++) {
               if (todo[i].tags[h]===selectedtags[j])
                {
                  renderToDo(todo[i]);
-                 i++;
+                 filterallready.push(todo[i])
                  j=0;
                  break;
               }
@@ -144,7 +172,7 @@ function filetifselecttag(arrforfilt){
             
          }           
       }
-      localStorage.setItem(KeyForSortOfStorage, JSON.stringify(arrforsort));
+      localStorage.setItem(KeyForSortOfStorage, JSON.stringify(filterallready));
 }
 function StartValidationChange(event) {
    event.preventDefault();
@@ -625,7 +653,8 @@ function lastCheckForcursor(){
    }, 100); 
 }
  function resetsortstorage(){
-   localStorage.setItem(KeyForSortOfStorage, JSON.stringify(JSON.parse(localStorage.getItem(KeyOfLocalStorage))));
+   let a=createDublicateForSort();
+   localStorage.setItem(KeyForSortOfStorage, JSON.stringify(a));
  }
 document.addEventListener('click', function(event) {
    const dropdownContent1 = document.getElementById('dropdownContent1');
@@ -694,8 +723,12 @@ let isHoveringtag=false;
 let isHoveringbydate=false;
 let isHoveringdeadline=false;
 
+btnfitlerdate.addEventListener('click',()=> filterall());
+btnfilterdeadline.addEventListener('click',()=> filterall());
 btnfiltertag.addEventListener('click',()=> filterall());
+
 refreshbtn.addEventListener('click',resetsortstorage);
+refreshbtn.addEventListener('click',StartServer);
 
 btnsortfinish.addEventListener('click',() =>{
    filterinproccesorfinish=1;
