@@ -250,6 +250,7 @@ function ValidationThenOfTodo(event) {
    const date1 = new Date(MasOfDate);
    const date2 = new Date();
    let Valid = true;
+   let MasOfTag=selectedTag().length;
    ErMasOfName.innerHTML = '';
    ErMasOfDate.innerHTML = '';
    ErMasOfTag.innerHTML = '';
@@ -262,7 +263,7 @@ function ValidationThenOfTodo(event) {
       Valid = false;
       ErMasOfDate.innerHTML = 'Поле "Дедлайн" должно быть заполенно';
    }
-   if (checkValid()) {
+   if (MasOfTag===0) {
       Valid = false;
       ErMasOfTag.innerHTML = 'Поле "Тег"  должно быть заполенно. ';
    }
@@ -315,7 +316,7 @@ function checkValid() {
    checkboxes.forEach((checkbox) => {
        selected.push(checkbox.value);
    });
- return selected.length ===null? true:false
+ return selected.length ===null? false:true
 }
 function selectedTag(){
    const checkboxes = document.querySelectorAll('input[name="tag"]:checked');

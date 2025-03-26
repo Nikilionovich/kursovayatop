@@ -156,8 +156,17 @@ dialog::backdrop {
 }
 
 .todo-item {
+  font-family: Arial, sans-serif;
   border: groove;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  display: flex;
+    flex-direction: column;
+    max-width: 115px;
+    justify-content: space-evenly;
+    min-width: 101px;
+    white-space: normal; /* Устанавливаем нормальные пробелы */
+  overflow-wrap: break-word; /* Перенос слов при необходимости */
+  word-break: keep-all;
 }
 
 .ContainBTNCreate {
@@ -365,6 +374,25 @@ dialog::backdrop {
   border: 1px solid #ccc; 
   padding: 10px; 
   background-color: #f9f9f9;
+  
+}
+#h2NameOftDo{
+  font-size: 18px;
+}
+#DescriptionOfToDo{
+  font-size: 16px;
+}
+#DeadLineOfToDo{
+  font-size: 14px;
+  color: #999999;
+}
+#TagOfToDo{
+  background-color: #2EEC71;
+  color: #ffffff;
+}
+#StatusOfToDo{
+  background-color: #3498db;
+  color: #ffffff;
 }
 @media (max-width: 729px) {
   .wrapper-info{
@@ -378,19 +406,19 @@ dialog::backdrop {
     align-items: center;
   }
   .popup{
-      top: 32%;
+      top: 24%;
 
     }
     .tag
     {
-      top: 42%;
+      top: 32%;
 
     }
     .datepop{
-      top:47%;
+      top:35%;
     }
     .deadlinepop{
-    top: 53%;
+    top: 40%;
   }
   }
   @media (max-width:500px) {
@@ -402,27 +430,61 @@ dialog::backdrop {
     #dropdownContent2{
     margin: 0px 0px 0px -65px;}
     .popup{
-      top: 37%;
+      top: 25%;
       left: 161px;
       width: 134px 
     }
     .tag
     {
-      top: 48%;
+      top: 34%;
 left: 161px;
 width: 146px;
     }
     .datepop{
-      top: 52%;
+      top: 37%;
       left: 161px;
       width: 145px;
     }
     .deadlinepop{
-    top: 58%;
+    top: 42%;
     left: 161px;
       width: 145px;
   }
   }
-  @media (max-width:770px){
+  @media (max-width:375px){
+    .popup{
+      top: 32%;
+
+    }
+    .tag
+    {
+      top: 43%;
+    }
+    .datepop{
+      top: 47%;
+      
+    }
+    .deadlinepop{
+    top: 53%;
+
+  }
+  }
+  @media (max-width:1271px) {
+    .popup{
+      top: 25%;
+
+    }
+    .tag
+    {
+      top: 33%;
+    }
+    .datepop{
+      top: 36%;
+      
+    }
+    .deadlinepop{
+    top: 41%;
+
+  }
     
   }
