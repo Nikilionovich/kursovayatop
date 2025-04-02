@@ -164,9 +164,10 @@ dialog::backdrop {
     max-width: 115px;
     justify-content: space-evenly;
     min-width: 101px;
-    white-space: normal; /* Устанавливаем нормальные пробелы */
-  overflow-wrap: break-word; /* Перенос слов при необходимости */
+    white-space: normal;
+  overflow-wrap: break-word; 
   word-break: keep-all;
+  gap: 3px;
 }
 
 .ContainBTNCreate {
