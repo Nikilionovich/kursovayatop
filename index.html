@@ -1,1 +1,222 @@
-<iframe frameborder="0" allow="clipboard-write" style="border:none;width:614px;height:556px;" width="614" height="556" src="https://music.yandex.ru/iframe/playlist/nikilion001/1002">Слушайте <a href="https://music.yandex.ru/playlists/d4515857-eb25-d9b9-8f2f-529b192b4d17">прог</a> — <a href="https://music.yandex.ru/users/nikilion001">nikilion001</a> на Яндекс Музыке</iframe>
+<!DOCTYPE html>
+<html class="page" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page__body">
+    <div class="wrapper">
+        <div class="content">
+            <header class="header">
+                <div class="container">
+                    <a href="#" class="listdo">Cписок дел</a>
+                    <div class="wrapper-info">
+                        <div id="temp">
+                            temp:
+                        </div>
+                        <div id="kurs">currencie: </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main>
+                <section class="windowOfCreate">
+                    <div class="fordropdowncont">
+                        <div class="dropdown" id="dropdownDiv1">
+                            <button class="dropbtn" id="dropbtn1"></button>
+                            <ul class="dropdown-content" id="dropdownContent1">
+                                <li id="sortDateAt">По дате создания</li>
+                                <li id="sortAlphabetically">По алфавиту</li>
+                                <li id="sortPriority">По приоритету</li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown" id="dropdownDiv2">
+                            <button class="dropbtn" id="dropbtn2"></button>
+                            <ul class="dropdown-content" id="dropdownContent2">
+                                <li id="filterStatus">по статусу</li>
+                                <li id="filterTag">По тегам</li>
+                                <li id="filterDateAt">По дате создания</li>
+                                <li id="filterDeadline">По дедлайну</li>
+                            </ul>
+                            <div id="statusPopup" class="popup hidden">
+                                <h3 class="h3filtbydate">Выберите статус:</h3>
+                                <ul>
+                                    <li id="statusInProcces">В процессе</li>
+                                    <li id="statusFinish">Завершено</li>
+                                </ul>
+                            </div>
+
+                            <div id="tagPopup" class="tag hidden">
+                                <h3 class="h3filtbydate">Выберите статус:</h3>
+                                <ul>
+                                    <summary>выберите теги</summary>
+                                    <form>
+                                        <div id="forCreateBoardfilt">
+                                        </div>
+                                        <button type="button" id="btnfiltertag">Фильтровать</button>
+                                    </form>
+                                </ul>
+
+                            </div>
+                            <div id="datePopup" class="datepop hidden">
+                                <h3 class="h3filtbydate">Введите промежуток</h3>
+                                <div class="divofdateforfilt">
+                                    <input type="date" id="firstdateforatcreate">
+                                    <input type="date" id="seconddateforatcreate">
+                                </div>
+                                <button type="button" id="btndilterbydate" class="btnfilterbydatecss">Фильтровать</button>
+                            </div>
+                            <div id="deadlinePopup" class="deadlinepop hidden">
+                                <h3 class="h3filtbydate">Введите промежуток</h3>
+                                <div class="divofdateforfilt">
+                                    <input type="date" id="firstdatefordeadline">
+                                    <input type="date" id="seconddatefordeadline">
+                                </div>
+                                <button type="button" id="btndilterdeadline" class="btnfilterbydatecss">Фильтровать</button>
+                            </div>
+                        </div>
+                        <button id="refreshbtn"></button>
+                        
+                    </div>
+                    <div class="ContainBTNCreate">
+                        <button id="showPopup">Создание дела</button>
+                        <button type="submit" id="CreateTag"> Создать новый тег </button>
+                    </div>
+                    <dialog class="createboard" id="createdo">
+
+                        <h2 id="h2createdo">Создание дела</h2>
+                        <form method="dialog" id="FormOfCreate">
+                            <div class="TEXTBOARD">
+                                <label>Название</label>
+                                <input type="text" placeholder="Введите название" id="NameOfDo">
+                                <p id="errorMassageOfName" class="massError"></p>
+                                <label>Описание</label>
+                                <input type="text" placeholder="Введите описание" id="MasOfDescription">
+                                <p id="errorMassageOfDescription" class="massError"></p>
+                                <label>Дедлайн</label>
+                                <input type="date" id="MasOfDate">
+                                <p id="errorMassageOfDate" class="massError"></p>
+                                <label>выберите тег</label>
+                                <details id="detailscreate">
+                                    <summary>выберите теги</summary>
+                                    <form>
+                                        <div id="forCreateBoard">
+                                        </div>
+                                    </form>
+                                </details>
+                                <p id="errorMassageOfTag" class="massError"></p>
+                                <select id="mySelect">
+                                    <option value="InProcces" id="inProcces">в процессе</option>
+                                    <option value="Finish">завершено</option>
+                                </select>
+                                <span class="btnFcreate">
+                                    <button id="CloseModal" type="reset">Отмена</button>
+                                    <button id="btncreate" type="reset">Создать</button>
+                                </span>
+                            </div>
+                        </form>
+                    </dialog>
+
+                </section>
+                <section>
+                    <div id="forToDo">
+                    </div>
+                    <template id="TemplateCard">
+                        <div class="todo-item">
+                            <h2 id="h2NameOftDo"></h2>
+                            <p id="DescriptionOfToDo"></p>
+                            <p id="DeadLineOfToDo"></p>
+                            <p id="TagOfToDo"></p>
+                            <p id="StatusOfToDo"></p>
+                            <input id="HiddenIdInfo" hidden>
+                            <span>
+                            <button class="btnchangeToDo"></button>
+                            <button class="btnDeleteToDo"></button>
+                        </span>
+                        </div>
+                    </template>
+                    <dialog id="changeTodo">
+                        <h2 id="h2Changedo">Изменение дела</h2>
+                        <form method="dialog" id="FormOfChange">
+                            <div class="TEXTBOARD">
+                                <label>Название</label>
+                                <input type="text" placeholder="Введите название" id="NameOfChange">
+                                <p id="errorMassageOfNameChange" class="massError"></p>
+                                <label>Описание</label>
+                                <input type="text" placeholder="Введите описание" id="MasOfDescriptionChange">
+                                <p id="errorMassageOfDescriptionChange" class="massError"></p>
+                                <label>Дедлайн</label>
+                                <input type="date" id="MasOfDateChange">
+                                <p id="errorMassageOfDateChange" class="massError"></p>
+                                <label>выберите тег</label>
+                                <details id="detailschange">
+                                    <summary>выберите теги</summary>
+                                    <form>
+                                        <div id="forChangeBoard">
+                                        </div>
+                                    </form>
+                                </details>
+                                <p id="errorMassageOfTagChange" class="massError"></p>
+                                <select id="mySelectchange">
+                                    <option value="InProcces" id="inProccesChange">в процессе</option>
+                                    <option value="Finish">завершено</option>
+                                </select>
+                                <span class="btnFcreate">
+                                    <button id="CloseModalChange" type="reset">Отмена</button>
+                                    <button id="BtnChange" type="reset">Сохранить</button>
+                                </span>
+                            </div>
+                        </form>
+                    </dialog>
+                    <template id="templatetagForCreate">
+                            <label>
+                                <input type="checkbox" name="tag" class="TagIs" value="x">
+                                <span id="spanInTemplateCreate">
+
+                                </span>
+                            </label><br>
+                        <template id="Temptagfilter">
+                                <label>
+                                    <input type="checkbox" name="tagfilt" class="TagIs" value="x">
+                                    <span id="spanInTemplatefilter">
+                                    </span>
+                                </label><br>
+                        </template>
+                    </template>
+                    <template id="templatetagForChange">      
+                            <label>
+                                <input type="checkbox" name="tagchange" class="TagIs" value="x">
+                                <span id="spanInTemplateChange">
+                                </span>
+                            </label><br>
+                    </template>
+                </section>
+                <section>
+                    <dialog id="DialogOFcreateTag">
+                        <h2 class="h2CreateTag"> Создание тега</h2>
+                        <form>
+                            <label>Введите название</label>
+                            <input type="text" id="InputNewTag">
+                            <p id="TagErrorMas" class="massError"></p>
+                            <span>
+                                <button>Отмена</button>
+                                <button id="createNewTag">Сохранить</button>
+                            </span>
+                        </form>
+                    </dialog>
+                </section>
+            </main>
+        </div>
+        <footer class="footer">fawd</footer>
+    </div>
+    <script src="class.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
