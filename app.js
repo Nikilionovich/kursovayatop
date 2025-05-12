@@ -1,10 +1,17 @@
 let isEditTodo = [];
 async function ApiTemp() {
-
-   const url = 'https://api.openweathermap.org/data/2.5/weather?q=Minsk&appid=cb8c1937ba2ab4009d5f9b08aab609b6';
-   const response = await fetch(url);
-   const datatemp = await response.json();
-   return datatemp
+    try{
+    const url = 'https://api.openweathermap.org/data/2.5/weather?q=Minsk&appid=cb8c1937ba2ab4009d5f9b08aab609b6';
+    const response = await fetch(url); 
+       if (response.ok===false) {
+           throw new Error("произошла ошибка при вызове api температуры");
+       }
+    const datatemp = await response.json();
+    return datatemp;
+    }
+    catch (error) {
+        console.error("произошла ошибка при вызове api температуры", error.message);
+    }
 }
 async function renderTemp() {
    const datatemp = await ApiTemp();
@@ -17,11 +24,18 @@ async function innertemp() {
    divt.innerHTML += data;
 }
 async function ApiKurs() {
-
-   const url = ' https://api.nbrb.by/exrates/rates/431'
+try {
+    const url = ' https://api.nbrb.by/exrates/rates/431'
    const response = await fetch(url)
+   if (response.ok===false) {
+       throw new Error("произошла ошибка при вызове api валюты")
+   }
    const datatemp = await response.json();
    return datatemp
+} catch (error) {
+   console.error("произошла ошибка при вызове api валюты",error.message)
+}
+   
 }
 async function renderKurs() {
    const datatemp = await ApiKurs();
@@ -504,7 +518,6 @@ document.getElementById('forToDo').innerHTML = '';
    }
 }
 function StartServer() {
-   
    clearall();
    let arrayOfDo = JSON.parse(localStorage.getItem(KeyOfLocalStorage)) || [];
    let ArrayOfTag = JSON.parse(localStorage.getItem(KeyForTagOfStorage)) || [];
@@ -669,6 +682,19 @@ function lastCheckForcursor(){
    let a=createDublicateForSort();
    localStorage.setItem(KeyForSortOfStorage, JSON.stringify(a));
  }
+ function basictagaddtoserver(){
+    AddTagToStorage("срочно");
+    AddTagToStorage("на сегодня");
+    AddTagToStorage("потом");
+ }
+ function resettagwhenstart(){
+     let filtmenu=document.getElementById('forCreateBoardfilt');
+     let createmenu=document.getElementById('forCreateBoard');
+     let changemenu=document.getElementById('forChangeBoard');
+     filtmenu.innerHTML="";
+     createmenu.innerHTML="";
+     changemenu.innerHTML="";
+ }
 document.addEventListener('click', function(event) {
    const dropdownContent1 = document.getElementById('dropdownContent1');
    const dropdownContent2 = document.getElementById('dropdownContent2');
@@ -805,6 +831,5 @@ btnsortAlphabetically.addEventListener('click',()=> {
 });
 innertemp();
 innerKurs();
-resetsortstorage();
-StartServer()
-sortDateAt()
+StartServer();
+sortDateAt();

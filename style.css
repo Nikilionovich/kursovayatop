@@ -164,10 +164,9 @@ dialog::backdrop {
     max-width: 115px;
     justify-content: space-evenly;
     min-width: 101px;
-    white-space: normal;
-  overflow-wrap: break-word; 
+    white-space: normal; /* Устанавливаем нормальные пробелы */
+  overflow-wrap: break-word; /* Перенос слов при необходимости */
   word-break: keep-all;
-  gap: 3px;
 }
 
 .ContainBTNCreate {
@@ -218,14 +217,14 @@ dialog::backdrop {
   background-color: #f1f1f1;
 }
 .popup {
-  position: fixed;
-  top: 22%;
-  left: 226px;
-  z-index: 1000;
+  position: absolute;
+  left: 161px;
+  bottom: -144px;
   transform: translateY(-50%);
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 8px;
+  z-index: 1000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 200px;
   transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -247,9 +246,9 @@ dialog::backdrop {
   visibility: hidden;
 }
 .tag{
-  position: fixed;
-  top: 29%;
-  left: 226px;
+  position: absolute;
+  left: 161px;
+  bottom: -192px  ;
   transform: translateY(-50%);
   background-color: #fff;
   border: 1px solid #ccc;
@@ -260,9 +259,9 @@ dialog::backdrop {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 .deadlinepop{
-  position: fixed;
-  top: 36%;
-  left: 226px;
+  position: absolute;
+  left: 161px;
+  bottom: -305px;
   transform: translateY(-50%);
   background-color: #fff;
   border: 1px solid #ccc;
@@ -295,17 +294,17 @@ dialog::backdrop {
   background-color: #ccc;
 }
 .datepop{
-  position: fixed;
-  top: 32%;
-  left: 226px;
-  transform: translateY(-50%);
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 8px;
-  z-index: 1000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 200px;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  position: absolute;
+    left: 161px;
+    bottom: -262px;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 8px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 200px;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 .fordropdowncont{
   display: flex;
@@ -342,7 +341,7 @@ dialog::backdrop {
   cursor: pointer;
 }
 #CreateTag{
-  
+
     cursor: pointer;
     font-family: Arial, sans-serif;
     min-height: 45px;
@@ -395,97 +394,3 @@ dialog::backdrop {
   background-color: #3498db;
   color: #ffffff;
 }
-@media (max-width: 729px) {
-  .wrapper-info{
-    flex-direction: column;
-    gap: 12px;
-  }
-  .header{
-    padding:9px;
-  }
-  .container{
-    align-items: center;
-  }
-  .popup{
-      top: 24%;
-
-    }
-    .tag
-    {
-      top: 32%;
-
-    }
-    .datepop{
-      top:35%;
-    }
-    .deadlinepop{
-    top: 40%;
-  }
-  }
-  @media (max-width:500px) {
-    .wrapper-info{
-      display: flex;
-      
-      gap: 12px;
-    }
-    #dropdownContent2{
-    margin: 0px 0px 0px -65px;}
-    .popup{
-      top: 25%;
-      left: 161px;
-      width: 134px 
-    }
-    .tag
-    {
-      top: 34%;
-left: 161px;
-width: 146px;
-    }
-    .datepop{
-      top: 37%;
-      left: 161px;
-      width: 145px;
-    }
-    .deadlinepop{
-    top: 42%;
-    left: 161px;
-      width: 145px;
-  }
-  }
-  @media (max-width:375px){
-    .popup{
-      top: 32%;
-
-    }
-    .tag
-    {
-      top: 43%;
-    }
-    .datepop{
-      top: 47%;
-      
-    }
-    .deadlinepop{
-    top: 53%;
-
-  }
-  }
-  @media (max-width:1271px) {
-    .popup{
-      top: 25%;
-
-    }
-    .tag
-    {
-      top: 33%;
-    }
-    .datepop{
-      top: 36%;
-      
-    }
-    .deadlinepop{
-    top: 41%;
-
-  }
-    
-  }
