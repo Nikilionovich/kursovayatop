@@ -248,7 +248,7 @@ dialog::backdrop {
 .tag{
   position: absolute;
   left: 161px;
-  bottom: -192px  ;
+  bottom: -266px  ;
   transform: translateY(-50%);
   background-color: #fff;
   border: 1px solid #ccc;
@@ -393,4 +393,16 @@ dialog::backdrop {
 #StatusOfToDo{
   background-color: #3498db;
   color: #ffffff;
+}
+@media(max-width:614px) {
+  .wrapper-info{
+    flex-direction: column;
+  }
+  .container{
+    align-items: center;
+  }
+  .header {
+    padding: 17px;
+    padding-left: 20px;
+  }
 }

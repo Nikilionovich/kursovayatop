@@ -4,7 +4,7 @@ class Node {
         this.next = null;
     this.prev = null;
     }
-  }
+}
   class DoubleLinkedList {
     constructor(value){
   this.head= new Node(value);
